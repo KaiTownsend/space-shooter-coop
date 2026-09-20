@@ -1,18 +1,25 @@
 using UnityEngine;
 
-// be able to shoot projectiles that damage enemy health. can be stationary enemy for now. when enemy health is 0, disable/destroy enemy.
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float movementSpeed = 5f;
+    [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private float _movementSpeed = 5f;
 
     private void Update()
     {
-        float inputDirection = GetPlayerInput();
-        transform.position += new Vector3(movementSpeed * Time.deltaTime * inputDirection, 0, 0);
+        float inputDirection = Input.GetAxisRaw("Horizontal");
+        transform.position += new Vector3(_movementSpeed * Time.deltaTime * inputDirection, 0, 0);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+            Debug.Log("Shoot");
+        }
     }
 
-    private float GetPlayerInput()
-    { 
-        return Input.GetAxisRaw("Horizontal");
+    private void Shoot()
+    {
+        Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 1, transform.position.z);
+        Instantiate(_projectilePrefab, shootPosition, transform.rotation);
     }
 }
