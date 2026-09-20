@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _projectilePrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _movementSpeed: 5
+  _shootCooldown: 0.2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
