@@ -34,4 +34,9 @@ public class EnemyController : MonoBehaviour
     {
         _healthPoints -= damageAmt;
     }
+
+    public void Reactivate()
+    {
+        
+    }
 }

@@ -13,10 +13,11 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _enemySpawnTransform;
     private GameObject[] _enemyList;
+    private int _rowSize = 10;
     
     private void Awake()
     {
-        _enemyList = new GameObject[80];
+        _enemyList = new GameObject[8*_rowSize];
     }
 
     private void Start()
@@ -26,14 +27,9 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            _enemyList[_enemyList.Length/2].SetActive(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            EnableEnemies();
+            RespawnEnemy();
         }
     }
 
@@ -44,13 +40,27 @@ public class EnemyManager : MonoBehaviour
             GameObject enemyPrefab = Instantiate(_enemyPrefab, _enemyContainer);
             _enemyList[i] = enemyPrefab;
 
-            enemyPrefab.transform.position = GetSpawnPosition(i);
+            enemyPrefab.transform.position = GetSpawnPosition(i%_rowSize, i/_rowSize);
         }
     }
 
-    private Vector3 GetSpawnPosition(int arrayIndex)
+    private Vector3 GetSpawnPosition(int row, int column)
     {
-        return new Vector3(_enemySpawnTransform.position.x + 0.25f * (arrayIndex%10), _enemySpawnTransform.position.y + 0.25f * (arrayIndex/10), _enemySpawnTransform.position.z);
+        return new Vector3(_enemySpawnTransform.position.x + 0.25f * row, _enemySpawnTransform.position.y + 0.25f * column, _enemySpawnTransform.position.z);
+    }
+
+    private void RespawnEnemy()
+    {
+        foreach(GameObject enemy in _enemyList)
+        {
+            if (enemy.activeSelf == false)
+            {
+                GameObject enemyToSpawn = enemy;
+                break;
+            }
+        }
+
+        
     }
 
     private void EnableEnemies()
