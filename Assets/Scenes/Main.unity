@@ -364,6 +364,7 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _movementSpeed: 5
   _shootCooldown: 0.1
+  _enemySpawnTransform: {fileID: 586041130}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   _enemyPrefab: {fileID: 6497348168935668700, guid: a3ec29bd8ce2dd34da26c3ce577ff89d, type: 3}
   _enemyContainer: {fileID: 1559643945}
-  _enemyTransform: {fileID: 586041130}
+  _enemySpawnTransform: {fileID: 586041130}
 --- !u!4 &2076801871
 Transform:
   m_ObjectHideFlags: 0

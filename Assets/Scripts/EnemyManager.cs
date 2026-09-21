@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private Transform _enemyContainer;
-    [SerializeField] private Transform _enemyTransform;
+    [SerializeField] private Transform _enemySpawnTransform;
     private GameObject[] enemyList;
     
     private void Awake()
@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
 
     private void CreateEnemies()
     {
-        Vector3 spawnPosition = _enemyTransform.position;
+        Vector3 spawnPosition = _enemySpawnTransform.position;
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 10; j++)
@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
                 enemyList[j + i*10] = enemyPrefab;
             }
 
-            spawnPosition = new Vector3(_enemyTransform.position.x, spawnPosition.y + 0.25f, _enemyTransform.position.z);
+            spawnPosition = new Vector3(_enemySpawnTransform.position.x, spawnPosition.y + 0.25f, _enemySpawnTransform.position.z);
         }
     }
 
