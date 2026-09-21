@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // every interval / cooldown they move down one enemy length. 
@@ -38,20 +39,18 @@ public class EnemyManager : MonoBehaviour
 
     private void CreateEnemies()
     {
-        Vector3 spawnPosition = _enemySpawnTransform.position;
-        for (int i = 0; i < _enemyList.Length/10; i++)
+        for (int i = 0; i < _enemyList.Length; i++)
         {
-            for (int j = 0; j < 10; j++)
-            {
-                GameObject enemyPrefab = Instantiate(_enemyPrefab, _enemyContainer);
-                enemyPrefab.transform.position = spawnPosition;
-                spawnPosition += new Vector3(0.25f, 0, 0);
+            GameObject enemyPrefab = Instantiate(_enemyPrefab, _enemyContainer);
+            _enemyList[i] = enemyPrefab;
 
-                _enemyList[j + i*10] = enemyPrefab;
-            }
-
-            spawnPosition = new Vector3(_enemySpawnTransform.position.x, spawnPosition.y + 0.25f, _enemySpawnTransform.position.z);
+            enemyPrefab.transform.position = GetSpawnPosition(i);
         }
+    }
+
+    private Vector3 GetSpawnPosition(int arrayIndex)
+    {
+        return new Vector3(_enemySpawnTransform.position.x + 0.25f * (arrayIndex%10), _enemySpawnTransform.position.y + 0.25f * (arrayIndex/10), _enemySpawnTransform.position.z);
     }
 
     private void EnableEnemies()
