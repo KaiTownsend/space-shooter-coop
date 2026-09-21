@@ -15,7 +15,7 @@ public class EnemyManager : MonoBehaviour
     
     private void Awake()
     {
-        _enemyList = new GameObject[50];
+        _enemyList = new GameObject[80];
     }
 
     private void Start()
@@ -39,7 +39,7 @@ public class EnemyManager : MonoBehaviour
     private void CreateEnemies()
     {
         Vector3 spawnPosition = _enemySpawnTransform.position;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < _enemyList.Length/10; i++)
         {
             for (int j = 0; j < 10; j++)
             {

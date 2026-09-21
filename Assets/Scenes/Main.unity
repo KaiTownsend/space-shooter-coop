@@ -365,7 +365,7 @@ MonoBehaviour:
   _movementSpeed: 5
   _enemySpawnTransform: {fileID: 586041130}
   bulletSizeMultiplier: 1
-  _shootCooldown: 0.2
+  shootCooldown: 0.2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
