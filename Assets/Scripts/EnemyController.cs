@@ -4,11 +4,11 @@ public class EnemyController : MonoBehaviour
 {
     private float _healthPoints = 100f;
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         if (_healthPoints <= 0)
         {
-            Destroy(gameObject, 0f);
+            gameObject.SetActive(false);
         }
     }
 
