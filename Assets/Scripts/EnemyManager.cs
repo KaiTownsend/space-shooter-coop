@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
 
 // every interval / cooldown they move down one enemy length. 
@@ -14,11 +11,11 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _enemySpawnTransform;
-    private GameObject[] enemyList;
+    private GameObject[] _enemyList;
     
     private void Awake()
     {
-        enemyList = new GameObject[50];
+        _enemyList = new GameObject[50];
     }
 
     private void Start()
@@ -30,7 +27,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            enemyList[enemyList.Length/2].SetActive(false);
+            _enemyList[_enemyList.Length/2].SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -50,7 +47,7 @@ public class EnemyManager : MonoBehaviour
                 enemyPrefab.transform.position = spawnPosition;
                 spawnPosition += new Vector3(0.25f, 0, 0);
 
-                enemyList[j + i*10] = enemyPrefab;
+                _enemyList[j + i*10] = enemyPrefab;
             }
 
             spawnPosition = new Vector3(_enemySpawnTransform.position.x, spawnPosition.y + 0.25f, _enemySpawnTransform.position.z);
@@ -59,7 +56,7 @@ public class EnemyManager : MonoBehaviour
 
     private void EnableEnemies()
     {
-        foreach(GameObject enemyPrefab in enemyList)
+        foreach(GameObject enemyPrefab in _enemyList)
         {
             if (enemyPrefab.activeInHierarchy == false)
             {

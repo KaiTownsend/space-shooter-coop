@@ -319,8 +319,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1260417613
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -5448727121883926364, guid: 7e70a62e4c5e1f94692d9defc424b299, type: 3}
@@ -363,8 +363,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _projectilePrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _movementSpeed: 5
-  _shootCooldown: 0.1
   _enemySpawnTransform: {fileID: 586041130}
+  bulletSizeMultiplier: 1
+  _shootCooldown: 0.2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,11 +4,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private float _shootCooldown = 0.2f;
     [SerializeField] private Transform _enemySpawnTransform;
+    public float bulletSizeMultiplier = 1f;
+    public float shootCooldown = 0.2f;
     private float _clampMin;
     private float _clampMax;
-    private float timePassed;
+    private float _timePassed;
+    
 
     private void Start()
     {
@@ -21,18 +23,20 @@ public class PlayerController : MonoBehaviour
         float inputDirection = Input.GetAxisRaw("Horizontal");
         transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 
-        timePassed += Time.deltaTime;
+        _timePassed += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && timePassed >= _shootCooldown)
+        if (Input.GetKey(KeyCode.Space) && _timePassed >= shootCooldown)
         {
             Shoot();
-            timePassed = 0f;
-        }   
+            _timePassed = 0f;
+        }
     }
 
     private void Shoot()
     {
-        Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 0.2f, transform.position.z);
-        Instantiate(_projectilePrefab, shootPosition, transform.rotation);
+        Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
+        GameObject bullet = Instantiate(_projectilePrefab, shootPosition, transform.rotation);
+
+        bullet.transform.localScale *= bulletSizeMultiplier;
     }
 }
