@@ -30,7 +30,6 @@ public class ProjectileController : MonoBehaviour
     private IEnumerator DisableAfterWait(int timeInSec)
     {
         yield return new WaitForSeconds(timeInSec);
-        Debug.Log("wait done");
         gameObject.SetActive(false);
     }
 
