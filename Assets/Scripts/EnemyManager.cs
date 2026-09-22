@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
 
     private Vector3 GetSpawnPosition(int row, int column)
     {
-        return new Vector3(_enemySpawnTransform.position.x + _offsetDist * row, _enemySpawnTransform.position.y + _offsetDist * column, _enemySpawnTransform.position.z);
+        return new Vector3(_enemySpawnTransform.position.x + _offsetDist * row, _enemySpawnTransform.position.y - _offsetDist * column, _enemySpawnTransform.position.z);
     }
 
     private void MoveAll()
@@ -66,33 +66,37 @@ public class EnemyManager : MonoBehaviour
 
     private void RespawnEnemies(int numEnemies)
     {
-        for (int i = 0; i < numEnemies; i++)
+        int enemiesRespawned = 0;
+
+        for (int j = _enemyList.Length - 1; j >= 0; j--)
         {
-            for (int j = _enemyList.Length - 1; j >= 0; j--)
+            if (enemiesRespawned >= numEnemies)
             {
-                if (_enemyList[j].activeInHierarchy == false)
+                break;
+            }
+
+            if (_enemyList[j].activeInHierarchy == false)
+            {
+                Vector3 spawnPosition = GetSpawnPosition(j%_rowSize, j/_rowSize);
+                bool isSpawnAvailable = true;
+
+                foreach (GameObject otherEnemy in _enemyList)
                 {
-                    Vector3 spawnPosition = GetSpawnPosition(j%_rowSize, j/_rowSize);
-                    bool isSpawnAvailable = true;
-
-                    foreach (GameObject otherEnemy in _enemyList)
+                    if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < 0.01 && otherEnemy.activeInHierarchy)
                     {
-                        if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < 0.01 && otherEnemy.activeInHierarchy)
-                        {
-                            isSpawnAvailable = false;
-                            break;
-                        }
-                    }
-
-                    if (isSpawnAvailable == true)
-                    {
-                        _enemyList[j].GetComponent<EnemyController>().Reactivate(spawnPosition);
-                        Debug.Log($"respawned. enemy num: {i}. enemy pos: {j}");
+                        isSpawnAvailable = false;
                         break;
                     }
                 }
+
+                if (isSpawnAvailable)
+                {
+                    _enemyList[j].GetComponent<EnemyController>().Reactivate(spawnPosition);
+                    Debug.Log($"respawned enemy at index: {j}");
+                    
+                    enemiesRespawned++;
+                }
             }
         }
-        
     }
 }
