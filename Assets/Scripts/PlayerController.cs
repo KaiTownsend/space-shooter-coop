@@ -5,9 +5,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private Transform _enemySpawnTransform;
-    public float bulletSize = 3f;
-    public float bulletSpread = 0.5f;
-    public float shootCooldown = 0.25f;
+    [SerializeField] private float _bulletSize = 3f;
+    [SerializeField] private float _bulletSpread = 0.5f;
+    [SerializeField] private int _bulletBounces = 0;
+    [SerializeField] private float _shootCooldown = 0.25f;
     private GameObject[] _bulletList;
     private float _reloadTimer;
     private float _clampMin;
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
         _reloadTimer += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && _reloadTimer >= shootCooldown)
+        if (Input.GetKey(KeyCode.Space) && _reloadTimer >= _shootCooldown)
         {
             Shoot();
             _reloadTimer = 0f;
@@ -57,8 +58,11 @@ public class PlayerController : MonoBehaviour
     {
         foreach (GameObject bullet in _bulletList)
         {
-            bullet.transform.localScale = new Vector3(bulletSize, bulletSize, bulletSize);
-            bullet.GetComponent<BulletController>().bulletSpread =  bulletSpread;
+            BulletController bulletController = bullet.GetComponent<BulletController>();
+
+            bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
+            bulletController.bulletSpread =  _bulletSpread;
+            bulletController.bulletBounces = _bulletBounces;
         }
     }
 
