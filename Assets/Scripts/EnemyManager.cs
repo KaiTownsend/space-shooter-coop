@@ -7,6 +7,8 @@ using UnityEngine;
 // make main menu with same scene
 // animate enemies
 // if enemies collide with ship, then lose health, change sprite state, and eventually lose/disable.
+
+// CRUCIAL BUG FIX: when the enemies respawn they mirror the position of the eliminated enemies
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
@@ -37,7 +39,7 @@ public class EnemyManager : MonoBehaviour
         if (_updateTimer >= _updateCooldown)
         {
             MoveAll();
-            RespawnEnemies(10);
+            RespawnTopRow();
             _updateTimer = 0f;
         }
     }
@@ -67,42 +69,27 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    private void RespawnEnemies(int numEnemies)
+    private void RespawnTopRow()
     {
-        // after googling i found out this tells the function to wait until next frame to execute but maybe we go over what this is really doing
-        
-
         int enemiesRespawned = 0;
 
-        for (int j = _enemyList.Length - 1; j >= 0; j--)
+        for (int j = 0; j < _enemyList.Length; j++)
         {
-            if (enemiesRespawned >= numEnemies)
+            if (enemiesRespawned >= _rowSize)
             {
                 break;
             }
 
             if (_enemyList[j].activeInHierarchy == false)
             {
-                Vector3 spawnPosition = GetSpawnPosition(0, j%_rowSize);
+                Vector3 spawnPosition = GetSpawnPosition(0, enemiesRespawned);
                 Debug.Log(spawnPosition);
-                bool isSpawnAvailable = true;
 
-                foreach (GameObject otherEnemy in _enemyList)
-                {
-                    if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < 0.2f)
-                    {
-                        isSpawnAvailable = false;
-                        break;
-                    }
-                }
-
-                if (isSpawnAvailable)
-                {
                     _enemyList[j].GetComponent<EnemyController>().Reactivate(spawnPosition);
                     Debug.Log($"respawned enemy at index: {j}");
                     
-                    enemiesRespawned++;
-                }
+                enemiesRespawned++;
+
             }
         }
     }
