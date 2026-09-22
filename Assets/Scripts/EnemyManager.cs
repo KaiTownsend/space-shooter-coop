@@ -87,7 +87,7 @@ public class EnemyManager : MonoBehaviour
                     if (isSpawnAvailable == true)
                     {
                         _enemyList[j].GetComponent<EnemyController>().Reactivate(spawnPosition);
-                        Debug.Log("respawned");
+                        Debug.Log($"respawned. enemy num: {i}. enemy pos: {j}");
                         break;
                     }
                 }
