@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
-        _bulletList = new GameObject[50];
+        _bulletList = new GameObject[100];
     }
 
     private void Start()

@@ -8,7 +8,7 @@ public class ProjectileController : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(DisableAfterWait(2));
+        StartCoroutine(DisableAfterWait(1));
     }
 
     private void Update()
