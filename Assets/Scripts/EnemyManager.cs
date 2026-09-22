@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 // every interval / cooldown they move down one enemy length. 
@@ -7,8 +7,7 @@ using UnityEngine;
 // make main menu with same scene
 // animate enemies
 // if enemies collide with ship, then lose health, change sprite state, and eventually lose/disable.
-
-// CRUCIAL BUG FIX: when the enemies respawn they mirror the position of the eliminated enemies
+// implement bullet spread?
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
@@ -71,25 +70,30 @@ public class EnemyManager : MonoBehaviour
 
     private void RespawnTopRow()
     {
-        int enemiesRespawned = 0;
+        List<int> randomNumsList = new List<int>();
+        for (int i = 0; i <= _rowSize-1; i++)
+        {
+            randomNumsList.Add(i);
+        }
 
-        for (int j = 0; j < _enemyList.Length; j++)
+        int enemiesRespawned = 0;
+        for (int i = 0; i < _enemyList.Length; i++)
         {
             if (enemiesRespawned >= _rowSize)
             {
                 break;
             }
 
-            if (_enemyList[j].activeInHierarchy == false)
+            if (_enemyList[i].activeInHierarchy == false)
             {
-                Vector3 spawnPosition = GetSpawnPosition(0, enemiesRespawned);
-                Debug.Log(spawnPosition);
-
-                    _enemyList[j].GetComponent<EnemyController>().Reactivate(spawnPosition);
-                    Debug.Log($"respawned enemy at index: {j}");
+                int randomIndex = Random.Range(0, randomNumsList.Count);
+                int uniqueNum = randomNumsList[randomIndex];
+                randomNumsList.RemoveAt(randomIndex);
+                
+                Vector3 spawnPosition = GetSpawnPosition(0, uniqueNum);
+                _enemyList[i].GetComponent<EnemyController>().Reactivate(spawnPosition);
                     
                 enemiesRespawned++;
-
             }
         }
     }
