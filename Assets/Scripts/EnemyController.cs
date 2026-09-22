@@ -21,11 +21,11 @@ public class EnemyController : MonoBehaviour
     {
         if (_healthPoints <= 0)
         {
-            // _deathParticles.transform.rotation = transform.rotation;
-            // _deathParticles.transform.position = transform.position;
             _deathParticles.transform.SetParent(_enemyContainer);
             _deathParticles.Play();
+
             _healthPoints = 100f;
+
             gameObject.SetActive(false);
         }
     }
@@ -35,8 +35,17 @@ public class EnemyController : MonoBehaviour
         _healthPoints -= damageAmt;
     }
 
-    public void Reactivate()
+    public void Reactivate(Vector3 spawnPosition)
     {
-        
+        if (!gameObject.activeInHierarchy)
+        {
+            gameObject.SetActive(true);
+
+            _deathParticles.transform.SetParent(gameObject.transform);
+            _deathParticles.transform.localPosition = Vector3.zero;
+            _deathParticles.transform.localScale = Vector3.one;
+            _deathParticles.transform.localRotation = Quaternion.identity;
+            _deathParticles.Stop();
+        }
     }
 }

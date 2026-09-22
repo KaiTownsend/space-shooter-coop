@@ -31,6 +31,11 @@ public class EnemyManager : MonoBehaviour
         {
             RespawnEnemy();
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            EnableEnemies();
+        }
     }
 
     private void CreateEnemies()
@@ -53,23 +58,24 @@ public class EnemyManager : MonoBehaviour
     {
         foreach(GameObject enemy in _enemyList)
         {
-            if (enemy.activeSelf == false)
+            if (enemy.activeInHierarchy == false)
             {
                 GameObject enemyToSpawn = enemy;
                 break;
             }
         }
 
-        
+
     }
 
+    // test function. to be deleted
     private void EnableEnemies()
     {
         foreach(GameObject enemyPrefab in _enemyList)
         {
             if (enemyPrefab.activeInHierarchy == false)
             {
-                enemyPrefab.SetActive(true);
+                enemyPrefab.GetComponent<EnemyController>().Reactivate(Vector3.zero);
             }
         }
     }
