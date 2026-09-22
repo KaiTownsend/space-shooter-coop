@@ -1,13 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// every interval / cooldown they move down one enemy length. 
-// they also regenerate at a certain pace that accelerates as game time goes on (add a visual timer for that and set a limit so they don't go off screen)
-// clamp ship movements to be within the enemies so you cant just escape entirely
-// make main menu with same scene
-// animate enemies
-// if enemies collide with ship, then lose health, change sprite state, and eventually lose/disable.
-// implement bullet spread?
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
