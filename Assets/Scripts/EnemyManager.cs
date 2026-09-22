@@ -11,9 +11,12 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _enemySpawnTransform;
+    [SerializeField] private float _updateCooldown = 3f;
+    [SerializeField] private float _movementDist = 0.25f;
     private GameObject[] _enemyList;
     private int _rowSize = 10;
     private float _offsetDist = 0.25f;
+    private float _updateTimer;
     
     private void Awake()
     {
@@ -27,9 +30,13 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        _updateTimer += Time.deltaTime;
+
+        if (_updateTimer >= _updateCooldown)
         {
-            RespawnEnemy();
+            RespawnEnemies(10);
+            MoveAll();
+            _updateTimer = 0f;
         }
     }
 
@@ -49,34 +56,43 @@ public class EnemyManager : MonoBehaviour
         return new Vector3(_enemySpawnTransform.position.x + _offsetDist * row, _enemySpawnTransform.position.y + _offsetDist * column, _enemySpawnTransform.position.z);
     }
 
-    private void RespawnEnemy()
+    private void MoveAll()
     {
-        for (int i = _enemyList.Length - 1; i >= 0; i--)
+        foreach (GameObject enemyToMove in _enemyList)
         {
-            if (_enemyList[i].activeInHierarchy == false)
-            {
-                Vector3 spawnPosition = GetSpawnPosition(i%_rowSize, i/_rowSize);
-                bool isSpawnAvailable = true;
-                float enemyRadius = _enemyList[i].GetComponent<BoxCollider2D>().size.x;
+            enemyToMove.transform.position += new Vector3(0, -_movementDist, 0);
+        }
+    }
 
-                foreach (GameObject otherEnemy in _enemyList)
+    private void RespawnEnemies(int numEnemies)
+    {
+        for (int i = 0; i < numEnemies; i++)
+        {
+            for (int j = _enemyList.Length - 1; j >= 0; j--)
+            {
+                if (_enemyList[j].activeInHierarchy == false)
                 {
-                    if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < enemyRadius && otherEnemy.activeInHierarchy)
+                    Vector3 spawnPosition = GetSpawnPosition(j%_rowSize, j/_rowSize);
+                    bool isSpawnAvailable = true;
+
+                    foreach (GameObject otherEnemy in _enemyList)
                     {
-                        isSpawnAvailable = false;
+                        if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < 0.01 && otherEnemy.activeInHierarchy)
+                        {
+                            isSpawnAvailable = false;
+                            break;
+                        }
+                    }
+
+                    if (isSpawnAvailable == true)
+                    {
+                        _enemyList[j].GetComponent<EnemyController>().Reactivate(spawnPosition);
+                        Debug.Log("respawned");
                         break;
                     }
                 }
-
-                if (isSpawnAvailable == true)
-                {
-                    _enemyList[i].GetComponent<EnemyController>().Reactivate(spawnPosition);
-                    Debug.Log("respawned");
-                    break;
-                }
             }
         }
-
         
     }
 }
