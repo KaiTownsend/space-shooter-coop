@@ -7,9 +7,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _enemySpawnTransform;
     public float bulletSizeMultiplier = 1f;
     public float shootCooldown = 0.2f;
+    private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;
-    private float _timePassed;
+    
     
 
     private void Start()
@@ -23,12 +24,12 @@ public class PlayerController : MonoBehaviour
         float inputDirection = Input.GetAxisRaw("Horizontal");
         transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 
-        _timePassed += Time.deltaTime;
+        _reloadTimer += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && _timePassed >= shootCooldown)
+        if (Input.GetKey(KeyCode.Space) && _reloadTimer >= shootCooldown)
         {
             Shoot();
-            _timePassed = 0f;
+            _reloadTimer = 0f;
         }
     }
 

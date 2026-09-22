@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 // every interval / cooldown they move down one enemy length. 
@@ -14,6 +13,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private Transform _enemySpawnTransform;
     private GameObject[] _enemyList;
     private int _rowSize = 10;
+    private float _offsetDist = 0.25f;
     
     private void Awake()
     {
@@ -31,11 +31,6 @@ public class EnemyManager : MonoBehaviour
         {
             RespawnEnemy();
         }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            EnableEnemies();
-        }
     }
 
     private void CreateEnemies()
@@ -51,32 +46,37 @@ public class EnemyManager : MonoBehaviour
 
     private Vector3 GetSpawnPosition(int row, int column)
     {
-        return new Vector3(_enemySpawnTransform.position.x + 0.25f * row, _enemySpawnTransform.position.y + 0.25f * column, _enemySpawnTransform.position.z);
+        return new Vector3(_enemySpawnTransform.position.x + _offsetDist * row, _enemySpawnTransform.position.y + _offsetDist * column, _enemySpawnTransform.position.z);
     }
 
     private void RespawnEnemy()
     {
-        foreach(GameObject enemy in _enemyList)
+        for (int i = _enemyList.Length - 1; i >= 0; i--)
         {
-            if (enemy.activeInHierarchy == false)
+            if (_enemyList[i].activeInHierarchy == false)
             {
-                GameObject enemyToSpawn = enemy;
-                break;
+                Vector3 spawnPosition = GetSpawnPosition(i%_rowSize, i/_rowSize);
+                bool isSpawnAvailable = true;
+                float enemyRadius = _enemyList[i].GetComponent<BoxCollider2D>().size.x;
+
+                foreach (GameObject otherEnemy in _enemyList)
+                {
+                    if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < enemyRadius && otherEnemy.activeInHierarchy)
+                    {
+                        isSpawnAvailable = false;
+                        break;
+                    }
+                }
+
+                if (isSpawnAvailable == true)
+                {
+                    _enemyList[i].GetComponent<EnemyController>().Reactivate(spawnPosition);
+                    Debug.Log("respawned");
+                    break;
+                }
             }
         }
 
-
-    }
-
-    // test function. to be deleted
-    private void EnableEnemies()
-    {
-        foreach(GameObject enemyPrefab in _enemyList)
-        {
-            if (enemyPrefab.activeInHierarchy == false)
-            {
-                enemyPrefab.GetComponent<EnemyController>().Reactivate(Vector3.zero);
-            }
-        }
+        
     }
 }

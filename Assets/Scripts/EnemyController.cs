@@ -3,9 +3,11 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _deathParticles;
-    [SerializeField] private float _movementSpeed = 0.05f;
+    [SerializeField] private float _movementDist = 0.25f;
+    [SerializeField] private float _movementCooldown = 3f;
     private Transform _enemyContainer;
     private float _healthPoints = 100f;
+    private float _movementTimer;
 
     private void Start()
     {
@@ -14,7 +16,14 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        transform.position += new Vector3(0, -_movementSpeed * Time.deltaTime, 0);
+         _movementTimer += Time.deltaTime;
+
+        // if (_movementTimer >= _movementCooldown)
+        // {
+        //     transform.position += new Vector3(0, -_movementDist, 0);
+        //     _movementTimer = 0f;
+        // }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -40,6 +49,7 @@ public class EnemyController : MonoBehaviour
         if (!gameObject.activeInHierarchy)
         {
             gameObject.SetActive(true);
+            transform.position = spawnPosition;
 
             _deathParticles.transform.SetParent(gameObject.transform);
             _deathParticles.transform.localPosition = Vector3.zero;

@@ -109,7 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _deathParticles: {fileID: 6945182640915990118}
-  _movementSpeed: 0.05
+  _movementDist: 0.25
+  _movementCooldown: 3
 --- !u!61 &8804257048056128531
 BoxCollider2D:
   m_ObjectHideFlags: 0
