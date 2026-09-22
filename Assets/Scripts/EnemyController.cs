@@ -12,8 +12,11 @@ public class EnemyController : MonoBehaviour
         _enemyContainer = transform.parent.gameObject.transform;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    public void TakeDamage(float damageAmt)
     {
+        Debug.Log($"damage should be taken. damage done: {damageAmt}");
+        _healthPoints -= damageAmt;
+
         if (_healthPoints <= 0)
         {
             _deathParticles.transform.SetParent(_enemyContainer);
@@ -23,11 +26,6 @@ public class EnemyController : MonoBehaviour
 
             gameObject.SetActive(false);
         }
-    }
-
-    public void TakeDamage(float damageAmt)
-    {
-        _healthPoints -= damageAmt;
     }
 
     public void Reactivate(Vector3 spawnPosition)

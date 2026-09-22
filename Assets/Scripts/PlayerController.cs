@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private Transform _enemySpawnTransform;
     public float bulletSizeMultiplier = 1f;
-    public float shootCooldown = 0.2f;
+    public float bulletSpreadMultiplier = 1f; // unused atm
+    public float shootCooldown = 0.25f;
     private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;

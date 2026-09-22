@@ -153,4 +153,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
   _speed: 5
-  _damage: 50
+  _damage: 100
