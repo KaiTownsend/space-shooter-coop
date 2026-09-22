@@ -14,7 +14,6 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(float damageAmt)
     {
-        Debug.Log($"damage should be taken. damage done: {damageAmt}");
         _healthPoints -= damageAmt;
 
         if (_healthPoints <= 0)

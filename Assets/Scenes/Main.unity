@@ -364,8 +364,8 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _movementSpeed: 5
   _enemySpawnTransform: {fileID: 586041130}
-  bulletSizeMultiplier: 1
-  bulletSpreadMultiplier: 1
+  bulletSize: 3
+  bulletSpread: 0.1
   shootCooldown: 0.25
 --- !u!1 &410087039
 GameObject:

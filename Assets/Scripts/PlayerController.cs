@@ -5,8 +5,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private Transform _enemySpawnTransform;
-    public float bulletSizeMultiplier = 1f;
-    public float bulletSpreadMultiplier = 1f; // unused atm
+    public float bulletSize = 3f;
+    public float bulletSpread = 0.5f;
     public float shootCooldown = 0.25f;
     private GameObject[] _bulletList;
     private float _reloadTimer;
@@ -40,15 +40,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-     private void CreateBullets()
+    private void CreateBullets()
     { 
         for (int i = 0; i < _bulletList.Length; i++)
         {
             Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
             GameObject bulletPrefab = Instantiate(_bulletPrefab, shootPosition, transform.rotation);
-            bulletPrefab.transform.localScale *= bulletSizeMultiplier;
 
             _bulletList[i] = bulletPrefab;
+        }
+
+        UpdateBullets();
+    }
+
+    private void UpdateBullets()
+    {
+        foreach (GameObject bullet in _bulletList)
+        {
+            bullet.transform.localScale = new Vector3(bulletSize, bulletSize, bulletSize);
+            bullet.GetComponent<BulletController>().bulletSpread =  bulletSpread;
         }
     }
 
