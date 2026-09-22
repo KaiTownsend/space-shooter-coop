@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem _spawnParticles;
     [SerializeField] private ParticleSystem _deathParticles;
     private Transform _enemyContainer;
     private float _healthPoints = 100f;
@@ -35,6 +36,8 @@ public class EnemyController : MonoBehaviour
         {
             gameObject.SetActive(true);
             transform.position = spawnPosition;
+
+            _spawnParticles.Play();
 
             _deathParticles.transform.SetParent(gameObject.transform);
             _deathParticles.transform.localPosition = Vector3.zero;

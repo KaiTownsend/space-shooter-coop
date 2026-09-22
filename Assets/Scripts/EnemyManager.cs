@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // every interval / cooldown they move down one enemy length. 
@@ -15,12 +16,13 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float _movementDist = 0.25f;
     private GameObject[] _enemyList;
     private int _rowSize = 10;
+    private int _colSize = 8;
     private float _offsetDist = 0.25f;
     private float _updateTimer;
     
     private void Awake()
     {
-        _enemyList = new GameObject[8*_rowSize];
+        _enemyList = new GameObject[_colSize*_rowSize];
     }
 
     private void Start()
@@ -34,8 +36,8 @@ public class EnemyManager : MonoBehaviour
 
         if (_updateTimer >= _updateCooldown)
         {
-            RespawnEnemies(10);
             MoveAll();
+            RespawnEnemies(10);
             _updateTimer = 0f;
         }
     }
@@ -47,13 +49,13 @@ public class EnemyManager : MonoBehaviour
             GameObject enemyPrefab = Instantiate(_enemyPrefab, _enemyContainer);
             _enemyList[i] = enemyPrefab;
 
-            enemyPrefab.transform.position = GetSpawnPosition(i%_rowSize, i/_rowSize);
+            enemyPrefab.transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
         }
     }
 
     private Vector3 GetSpawnPosition(int row, int column)
     {
-        return new Vector3(_enemySpawnTransform.position.x + _offsetDist * row, _enemySpawnTransform.position.y - _offsetDist * column, _enemySpawnTransform.position.z);
+        return new Vector3(_enemySpawnTransform.position.x + _offsetDist * column, _enemySpawnTransform.position.y - _offsetDist * row, _enemySpawnTransform.position.z);
     }
 
     private void MoveAll()
@@ -64,8 +66,12 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+
     private void RespawnEnemies(int numEnemies)
     {
+        // after googling i found out this tells the function to wait until next frame to execute but maybe we go over what this is really doing
+        
+
         int enemiesRespawned = 0;
 
         for (int j = _enemyList.Length - 1; j >= 0; j--)
@@ -77,12 +83,13 @@ public class EnemyManager : MonoBehaviour
 
             if (_enemyList[j].activeInHierarchy == false)
             {
-                Vector3 spawnPosition = GetSpawnPosition(j%_rowSize, j/_rowSize);
+                Vector3 spawnPosition = GetSpawnPosition(0, j%_rowSize);
+                Debug.Log(spawnPosition);
                 bool isSpawnAvailable = true;
 
                 foreach (GameObject otherEnemy in _enemyList)
                 {
-                    if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < 0.01 && otherEnemy.activeInHierarchy)
+                    if (Vector3.Distance(spawnPosition, otherEnemy.transform.position) < 0.2f)
                     {
                         isSpawnAvailable = false;
                         break;
