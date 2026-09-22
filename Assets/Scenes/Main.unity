@@ -361,11 +361,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c1913ccc9e59c43a6415bffd80a7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _projectilePrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
+  _bulletPrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _movementSpeed: 5
   _enemySpawnTransform: {fileID: 586041130}
   bulletSizeMultiplier: 1
-  shootCooldown: 0.2
+  bulletSpreadMultiplier: 1
+  shootCooldown: 0.25
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

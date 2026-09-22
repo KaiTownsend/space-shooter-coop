@@ -2,22 +2,28 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private Transform _enemySpawnTransform;
     public float bulletSizeMultiplier = 1f;
     public float bulletSpreadMultiplier = 1f; // unused atm
     public float shootCooldown = 0.25f;
+    private GameObject[] _bulletList;
     private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;
     
-    
+    private void Awake()
+    {
+        _bulletList = new GameObject[50];
+    }
 
     private void Start()
     {
         _clampMin = _enemySpawnTransform.position.x;
         _clampMax = -_enemySpawnTransform.position.x;
+
+        CreateBullets();
     }
 
     private void Update()
@@ -34,11 +40,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+     private void CreateBullets()
+    { 
+        for (int i = 0; i < _bulletList.Length; i++)
+        {
+            Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
+            GameObject bulletPrefab = Instantiate(_bulletPrefab, shootPosition, transform.rotation);
+            bulletPrefab.transform.localScale *= bulletSizeMultiplier;
+
+            _bulletList[i] = bulletPrefab;
+        }
+    }
+
     private void Shoot()
     {
-        Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
-        GameObject bullet = Instantiate(_projectilePrefab, shootPosition, transform.rotation);
-
-        bullet.transform.localScale *= bulletSizeMultiplier;
+        foreach (GameObject bullet in _bulletList)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                bullet.SetActive(true);
+                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
+                break;
+            }
+        }
     }
 }

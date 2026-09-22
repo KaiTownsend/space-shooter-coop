@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 6181007614549724356}
   - component: {fileID: 3785895273267808325}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4714179712753765991
 Transform:
   m_ObjectHideFlags: 0

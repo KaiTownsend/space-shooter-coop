@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -5,9 +6,9 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _damage = 100f;
 
-    private void Start()
+    private void OnEnable()
     {
-        Destroy(gameObject, 2f);
+        StartCoroutine(DisableAfterWait(2));
     }
 
     private void Update()
@@ -22,8 +23,15 @@ public class ProjectileController : MonoBehaviour
         if (enemyController != null)
         {
             enemyController.TakeDamage(_damage);
-            Destroy(gameObject, 0f);
+            gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator DisableAfterWait(int timeInSec)
+    {
+        yield return new WaitForSeconds(timeInSec);
+        Debug.Log("wait done");
+        gameObject.SetActive(false);
     }
 
 }
