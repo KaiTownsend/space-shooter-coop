@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public float health { get; private set; }
     private GameManager _gameManager;
+    private GameObject _bulletContainer;
     private SpriteRenderer _spriteRenderer;
     private List<GameObject> _bulletList;
     private float _reloadTimer;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _bulletList = new List<GameObject>();
+        _bulletContainer = Instantiate(_bulletContainerPrefab);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
@@ -78,15 +80,10 @@ public class PlayerController : MonoBehaviour
             }
             
         }
-        _uiManager.UpdateMagText(availableBulletCount, _magSize);
+        _uiManager.UpdateMagText(availableBulletCount, _bulletList.Count);
 
         // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
-        if (Input.GetKey(KeyCode.U)) // changing basically anything bullet-related except mag size
-        {
-            UpdateBullets();
-        }
-
-        if (Input.GetKey(KeyCode.I)) // for changing mag size
+        if (Input.GetKey(KeyCode.I)) // updates and creates new bullets
         {
             CreateBullets();
         }
@@ -115,11 +112,9 @@ public class PlayerController : MonoBehaviour
 
     private void CreateBullets()
     {
-        GameObject bulletContainerPrefab = Instantiate(_bulletContainerPrefab);
-
         for (int i = 0; i < (_magSize - _bulletList.Count); i++)
         {
-            GameObject bulletPrefab = Instantiate(_bulletPrefab, bulletContainerPrefab.transform);
+            GameObject bulletPrefab = Instantiate(_bulletPrefab, _bulletContainer.transform);
             _bulletList.Add(bulletPrefab);
         }
 
@@ -145,7 +140,7 @@ public class PlayerController : MonoBehaviour
             if (!bullet.activeInHierarchy)
             {
                 bullet.SetActive(true);
-                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
+                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _bulletList[0].transform.localScale.y / 80f, transform.position.z);
                 break;
             }
         }

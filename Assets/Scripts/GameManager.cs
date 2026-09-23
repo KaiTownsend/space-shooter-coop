@@ -29,13 +29,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
+        //if and else if to be deleted once I have a button setup for a menu or such.
         if (Input.GetKeyDown(KeyCode.P))
         {
-            isGamePaused = true;
+            PauseGame();
         }
         else if (Input.GetKeyDown(KeyCode.O))
         {
-            isGamePaused = false;
+            ResumeGame();
         }
 
         if (!isGamePaused)
@@ -58,18 +60,20 @@ public class GameManager : MonoBehaviour
     {
         if (_playerController.health <= 0)
         {
-            // pause game / game over?
-        }
-
-        if (!isGamePaused)
-        {
             PauseGame();
-            
         }
     }
 
     private void PauseGame()
     {
         isGamePaused = true;
+        Debug.Log("Game Paused");
+
+    }
+
+    private void ResumeGame()
+    {
+        isGamePaused = false;
+        Debug.Log("Game Resumed");
     }
 }
