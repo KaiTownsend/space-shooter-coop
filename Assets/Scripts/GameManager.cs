@@ -13,7 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _leftBorder;
 
     [HideInInspector] public bool _isGamePaused;
+    private PlayerController _playerController;
     private float _gameTime;
+    
+
+    private void Awake()
+    {
+        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+    }
     
 
     private void Start()
@@ -26,7 +33,7 @@ public class GameManager : MonoBehaviour
         if (!_isGamePaused)
         {
             _gameTime += Time.deltaTime;
-            _uiManager.UpdateTimer(_gameTime);
+            _uiManager.UpdateTimerText(_gameTime);
         }
         
     }
@@ -37,5 +44,13 @@ public class GameManager : MonoBehaviour
         _bottomBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
         _rightBorder.localPosition = new Vector3(_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
         _leftBorder.localPosition = new Vector3(-_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
+    }
+
+    public void UpdateGameState()
+    {
+        if (_playerController.health <= 0)
+        {
+            // pause game / game over?
+        }
     }
 }

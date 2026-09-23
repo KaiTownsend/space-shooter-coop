@@ -1,9 +1,11 @@
 using System.Collections.Generic;
-using System.ComponentModel;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
     [SerializeField] private Transform _enemySpawnTransform;
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
 
-    [HideInInspector] public float _health;
+    public float health { get; private set; }
     private SpriteRenderer _spriteRenderer;
     private List<GameObject> _bulletList;
     private float _reloadTimer;
@@ -42,7 +44,9 @@ public class PlayerController : MonoBehaviour
     {
         _clampMin = _enemySpawnTransform.position.x;
         _clampMax = -_enemySpawnTransform.position.x;
-        _health = _maxHealth;
+
+        health = _maxHealth;
+        _uiManager.UpdateHealthText(_maxHealth);
 
         CreateBullets();
     }
@@ -60,6 +64,17 @@ public class PlayerController : MonoBehaviour
             _reloadTimer = 0f;
         }
 
+        int availableBulletCount = 0;
+        foreach (GameObject bullet in _bulletList)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                availableBulletCount++;
+            }
+            
+        }
+        _uiManager.UpdateMagText(availableBulletCount, _magSize);
+
         // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
         if (Input.GetKey(KeyCode.U)) // changing basically anything bullet-related except mag size
         {
@@ -74,17 +89,18 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damageAmt)
     {
-        _health -= damageAmt;
-        Debug.Log(_health);
+        health -= damageAmt;
+        Debug.Log(health);
         UpdateShipState();
+        _uiManager.UpdateHealthText(_maxHealth);
     }
 
     private void UpdateShipState()
     {
-        if (_health > (0.80 * _maxHealth)) _spriteRenderer.sprite = _maxHPSprite;
-        else if (_health > (0.6 * _maxHealth)) _spriteRenderer.sprite = _highHPSprite;
-        else if (_health > (0.3 * _maxHealth)) _spriteRenderer.sprite = _mediumHPSprite;
-        else if (_health > (0 * _maxHealth)) _spriteRenderer.sprite = _lowHPSprite;
+        if (health > (0.80 * _maxHealth)) _spriteRenderer.sprite = _maxHPSprite;
+        else if (health > (0.6 * _maxHealth)) _spriteRenderer.sprite = _highHPSprite;
+        else if (health > (0.3 * _maxHealth)) _spriteRenderer.sprite = _mediumHPSprite;
+        else if (health > (0 * _maxHealth)) _spriteRenderer.sprite = _lowHPSprite;
         else
         {
             _spriteRenderer.sprite = _lowHPSprite;
