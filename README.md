@@ -1,2 +1,2 @@
 # space-shooter-coop
-simple roguelike/rounds-inspired coop space shooter game
+simple rounds and ball x pit inspired coop space shooter game
