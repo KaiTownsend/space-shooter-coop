@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHealthText(float maxHealth)
     {
-        _healthText.text = $"Health: {_playerController.health}/{maxHealth}";
+        _healthText.text = $"HP: {_playerController.health}/{maxHealth}";
     }
 
     public void UpdateMagText(int bulletCount, int magSize)
