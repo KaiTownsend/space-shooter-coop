@@ -6,10 +6,16 @@ public class BulletController : MonoBehaviour
     [SerializeField] private float _damage = 100f;
     [HideInInspector] public float bulletSpread = 0f;
     [HideInInspector] public int bulletBounces = 0;
+    private GameManager _gameManager;
     private int xDirection = 1;
     private int yDirection = 1;
     private float uniqueBulletSpread;
     private int bulletBounceCounter;
+
+    private void Awake()
+    {
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+    }
 
     private void OnEnable()
     {
@@ -23,6 +29,11 @@ public class BulletController : MonoBehaviour
 
     private void Update()
     {
+        if (_gameManager.isGamePaused)
+        {
+            return;
+        }
+
         transform.position = new Vector3(transform.position.x + uniqueBulletSpread * xDirection * Time.deltaTime, transform.position.y + _speed * yDirection * Time.deltaTime, transform.position.z);
     }
 

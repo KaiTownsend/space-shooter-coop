@@ -14,12 +14,14 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int _colSize = 8;
     
     [HideInInspector] public float totalHorizDistance;
+    private GameManager _gameManager;
     private GameObject[] _enemyList;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
     private float _updateTimer;
     
     private void Awake()
     {
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _enemyList = new GameObject[_colSize*_rowSize];
         _enemySpawnTransform.transform.position = new Vector3(_offsetDist/2f * (-_rowSize + 1f), 2.85f, 0f);
         totalHorizDistance = Mathf.Abs(2*(_enemySpawnTransform.transform.position.x - _offsetDist));
@@ -32,6 +34,11 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        if (_gameManager.isGamePaused)
+        {
+            return;
+        }
+        
         _updateTimer += Time.deltaTime;
 
         if (_updateTimer >= _updateCooldown)

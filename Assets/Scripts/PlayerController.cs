@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
@@ -27,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _shootCooldown = 0.25f;
 
     public float health { get; private set; }
+    private GameManager _gameManager;
     private SpriteRenderer _spriteRenderer;
     private List<GameObject> _bulletList;
     private float _reloadTimer;
@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         _bulletList = new List<GameObject>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
     private void Start()
@@ -52,6 +53,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (_gameManager.isGamePaused)
+        {
+            return;
+        }
+
         float inputDirection = Input.GetAxisRaw("Horizontal");
         transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 

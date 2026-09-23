@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _rightBorder;
     [SerializeField] private Transform _leftBorder;
 
-    [HideInInspector] public bool _isGamePaused;
+    [HideInInspector] public bool isGamePaused;
     private PlayerController _playerController;
     private float _gameTime;
     
@@ -29,7 +29,16 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!_isGamePaused)
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            isGamePaused = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            isGamePaused = false;
+        }
+
+        if (!isGamePaused)
         {
             _gameTime += Time.deltaTime;
             _uiManager.UpdateTimerText(_gameTime);
@@ -51,5 +60,16 @@ public class GameManager : MonoBehaviour
         {
             // pause game / game over?
         }
+
+        if (!isGamePaused)
+        {
+            PauseGame();
+            
+        }
+    }
+
+    private void PauseGame()
+    {
+        isGamePaused = true;
     }
 }

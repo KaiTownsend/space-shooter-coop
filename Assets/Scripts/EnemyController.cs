@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private ParticleSystem _deathParticles;
     private Transform _enemyContainer;
     private float _healthPoints = 100f;
-
+    
     private void Start()
     {
         _enemyContainer = transform.parent.gameObject.transform;
