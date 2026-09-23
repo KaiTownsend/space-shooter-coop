@@ -62,6 +62,11 @@ public class BulletController : MonoBehaviour
             {
                 yDirection = -yDirection;
             }
+
+            if (collider.gameObject.GetComponent<PlayerController>() != null) // even if you still have bounces. if you catch the balls, they're essentially reloaded
+            {
+                gameObject.SetActive(false);
+            }
             
             bulletBounceCounter--;
         }

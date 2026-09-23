@@ -17,6 +17,8 @@ public class EnemyManager : MonoBehaviour
     private void Awake()
     {
         _enemyList = new GameObject[_colSize*_rowSize];
+
+        // _enemySpawnTransform.transform.position = 
     }
 
     private void Start()
