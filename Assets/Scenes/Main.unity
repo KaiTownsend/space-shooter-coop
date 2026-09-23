@@ -367,8 +367,9 @@ MonoBehaviour:
   _bulletContainerPrefab: {fileID: 5058976492316276587, guid: bf62baa073374604ea106c74c108b6a2, type: 3}
   _enemySpawnTransform: {fileID: 586041130}
   _movementSpeed: 5
+  _magSize: 1
   _bulletSize: 3
-  _bulletSpread: 0.5
+  _bulletSpread: 0.3
   _bulletBounces: 0
   _shootCooldown: 0.25
 --- !u!50 &396446691

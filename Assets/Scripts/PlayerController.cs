@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,18 +8,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _bulletContainerPrefab;
     [SerializeField] private Transform _enemySpawnTransform;
     [SerializeField] private float _movementSpeed = 5f;
+    [SerializeField] private int _magSize = 1;
     [SerializeField] private float _bulletSize = 3f;
-    [SerializeField] private float _bulletSpread = 0.5f;
+    [SerializeField] private float _bulletSpread = 0.3f;
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
-    private GameObject[] _bulletList;
+    private List<GameObject> _bulletList;
     private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;
     
     private void Awake()
     {
-        _bulletList = new GameObject[100];
+        _bulletList = new List<GameObject>();
     }
 
     private void Start()
@@ -52,10 +55,10 @@ public class PlayerController : MonoBehaviour
     { 
         GameObject bulletContainerPrefab = Instantiate(_bulletContainerPrefab);
 
-        for (int i = 0; i < _bulletList.Length; i++)
+        for (int i = 0; i < (_magSize - _bulletList.Count); i++)
         {
             GameObject bulletPrefab = Instantiate(_bulletPrefab, bulletContainerPrefab.transform);
-            _bulletList[i] = bulletPrefab;
+            _bulletList.Add(bulletPrefab);
         }
 
         UpdateBullets();
