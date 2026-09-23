@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
         {
             ResumeGame();
         }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetAndPause();
+        }
 
         if (!isGamePaused)
         {
@@ -67,6 +71,7 @@ public class GameManager : MonoBehaviour
     private void PauseGame()
     {
         isGamePaused = true;
+        
         Debug.Log("Game Paused");
 
     }
@@ -74,6 +79,20 @@ public class GameManager : MonoBehaviour
     private void ResumeGame()
     {
         isGamePaused = false;
+
         Debug.Log("Game Resumed");
+    }
+
+    private void ResetAndPause()
+    {
+        isGamePaused = true;
+
+        _playerController.ResetPlayerAndBullets();
+        _playerController.reloadTimer = 0f;
+
+        _enemyManager.ResetEnemies();
+        _enemyManager.updateTimer = 0f;
+
+        Debug.Log("Reset and Pause Game");
     }
 }

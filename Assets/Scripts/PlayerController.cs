@@ -25,12 +25,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
 
+    [HideInInspector] public float reloadTimer;
     public float health { get; private set; }
     private GameManager _gameManager;
     private GameObject _bulletContainer;
     private SpriteRenderer _spriteRenderer;
     private List<GameObject> _bulletList;
-    private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;
 
@@ -63,12 +63,12 @@ public class PlayerController : MonoBehaviour
         float inputDirection = Input.GetAxisRaw("Horizontal");
         transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 
-        _reloadTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && _reloadTimer >= _shootCooldown)
+        if (Input.GetKey(KeyCode.Space) && reloadTimer >= _shootCooldown)
         {
             Shoot();
-            _reloadTimer = 0f;
+            reloadTimer = 0f;
         }
 
         int availableBulletCount = 0;
@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
             
         }
         _uiManager.UpdateMagText(availableBulletCount, _bulletList.Count);
+
+        
 
         // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
         if (Input.GetKey(KeyCode.I)) // updates and creates new bullets
@@ -95,6 +97,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log(health);
         UpdateShipState();
         _uiManager.UpdateHealthText(_maxHealth);
+    }
+
+    public void ResetPlayerAndBullets()
+    {
+        foreach (GameObject bullet in _bulletList)
+        {
+            if (bullet.activeInHierarchy)
+            {
+                bullet.SetActive(false);
+            }
+        }
+
+        transform.position = new Vector3 (0, -0.8f, 0);
     }
 
     private void UpdateShipState()

@@ -14,10 +14,11 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int _colSize = 8;
     
     [HideInInspector] public float totalHorizDistance;
+    [HideInInspector] public float updateTimer;
     private GameManager _gameManager;
     private GameObject[] _enemyList;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
-    private float _updateTimer;
+    
     
     private void Awake()
     {
@@ -38,14 +39,23 @@ public class EnemyManager : MonoBehaviour
         {
             return;
         }
-        
-        _updateTimer += Time.deltaTime;
 
-        if (_updateTimer >= _updateCooldown)
+        updateTimer += Time.deltaTime;
+
+        if (updateTimer >= _updateCooldown)
         {
             MoveAll();
             RespawnTopRow();
-            _updateTimer = 0f;
+            updateTimer = 0f;
+        }
+    }
+
+    public void ResetEnemies()
+    {
+        for (int i = 0; i < _enemyList.Length; i++)
+        {
+            _enemyList[i].SetActive(true);
+            _enemyList[i].transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
         }
     }
 
@@ -67,12 +77,11 @@ public class EnemyManager : MonoBehaviour
 
     private void MoveAll()
     {
-        foreach (GameObject enemyToMove in _enemyList)
+        foreach (GameObject enemy in _enemyList)
         {
-            enemyToMove.transform.position += new Vector3(0, -_movementDist, 0);
+            enemy.transform.position += new Vector3(0, -_movementDist, 0);
         }
     }
-
 
     private void RespawnTopRow()
     {
