@@ -4,10 +4,12 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [Header("TextMeshPro")]
+    [SerializeField] private TMP_Text _gameStatusText;
     [SerializeField] private TMP_Text _timerText;
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _magText;
     
+
     private PlayerController _playerController;
 
     private void Awake()
@@ -31,5 +33,17 @@ public class UIManager : MonoBehaviour
     public void UpdateMagText(int bulletCount, int magSize)
     {
         _magText.text = $"Mag: {bulletCount}/{magSize}";
+    }
+
+    public void UpdateGameStatusText(bool isGamePaused)
+    {
+        if (isGamePaused)
+        {
+            _gameStatusText.text = "Game Paused \n- Press O to Resume";
+        }
+        else if (!isGamePaused)
+        {
+            _gameStatusText.text = "Game Running \n- Press P to Pause";
+        }
     }
 }

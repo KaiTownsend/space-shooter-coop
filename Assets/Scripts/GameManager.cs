@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetupBorders();
+        isGamePaused = true;
     }
 
     private void Update()
@@ -70,20 +71,19 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = true;
 
-        Debug.Log("Game Paused");
-
+        _uiManager.UpdateGameStatusText(isGamePaused);
     }
 
     private void ResumeGame()
     {
         isGamePaused = false;
 
-        Debug.Log("Game Resumed");
+        _uiManager.UpdateGameStatusText(isGamePaused);
     }
 
     private void ResetAndPause()
     {
-        isGamePaused = true;
+        PauseGame();
 
         _playerController.ResetPlayerAndBullets();
         _playerController.reloadTimer = 0f;
@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
         _enemyManager.ResetEnemies();
         _enemyManager.updateTimer = 0f;
 
-        Debug.Log("Reset and Pause Game");
+        Debug.Log("Game Reset And Paused");
+
+        
     }
 }
