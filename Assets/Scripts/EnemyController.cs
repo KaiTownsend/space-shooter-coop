@@ -1,15 +1,25 @@
+using System.Runtime.Serialization.Formatters;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _spawnParticles;
     [SerializeField] private ParticleSystem _deathParticles;
+    [SerializeField] private PlayerController _playerController;
     private Transform _enemyContainer;
     private float _healthPoints = 100f;
 
     private void Start()
     {
         _enemyContainer = transform.parent.gameObject.transform;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.name == "Bottom Border")
+        {
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().TakeDamage(10);
+        }
     }
 
     public void TakeDamage(float damageAmt)

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
     private List<GameObject> _bulletList;
+    private float _health = 100f;
     private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;
@@ -33,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"current health: {_health}");
+
         float inputDirection = Input.GetAxisRaw("Horizontal");
         transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 
@@ -51,8 +54,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float damageAmt)
+    {
+        _health -= damageAmt;
+    }
+
     private void CreateBullets()
-    { 
+    {
         GameObject bulletContainerPrefab = Instantiate(_bulletContainerPrefab);
 
         for (int i = 0; i < (_magSize - _bulletList.Count); i++)
