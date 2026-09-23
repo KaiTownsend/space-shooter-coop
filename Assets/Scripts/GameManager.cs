@@ -3,6 +3,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private EnemyManager _enemyManager;
+    
+    [Header("Border Transforms")]
     [SerializeField] private Transform _topBorder;
     [SerializeField] private Transform _bottomBorder;
     [SerializeField] private Transform _rightBorder;

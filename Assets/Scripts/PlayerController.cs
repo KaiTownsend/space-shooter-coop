@@ -7,12 +7,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
     [SerializeField] private Transform _enemySpawnTransform;
+    
+    [Header("Ship Sprites")]
     [SerializeField] private Sprite _maxHPSprite;
     [SerializeField] private Sprite _highHPSprite;
     [SerializeField] private Sprite _mediumHPSprite;
     [SerializeField] private Sprite _lowHPSprite;
+
+    [Header("General Stats")]
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _maxHealth = 100f;
+
+    [Header("Gun/Bullet Stats")]
     [SerializeField] private int _magSize = 1;
     [SerializeField] private float _bulletSize = 3f;
     [SerializeField] private float _bulletSpread = 0.3f;

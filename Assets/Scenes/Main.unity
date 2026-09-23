@@ -366,7 +366,12 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _bulletContainerPrefab: {fileID: 5058976492316276587, guid: bf62baa073374604ea106c74c108b6a2, type: 3}
   _enemySpawnTransform: {fileID: 586041130}
+  _maxHPSprite: {fileID: -5448727121883926364, guid: 7e70a62e4c5e1f94692d9defc424b299, type: 3}
+  _highHPSprite: {fileID: -4835859195297287297, guid: e69baf2273b8195469d752e116c1ac3a, type: 3}
+  _mediumHPSprite: {fileID: 5091398421201204211, guid: e88de61840c8fb34eb83de859dd33570, type: 3}
+  _lowHPSprite: {fileID: 6372854951805474705, guid: bfb0dbfc341dff84e8a1276fa3d06cf2, type: 3}
   _movementSpeed: 5
+  _maxHealth: 100
   _magSize: 1
   _bulletSize: 3
   _bulletSpread: 0.3

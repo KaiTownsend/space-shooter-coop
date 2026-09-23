@@ -6,10 +6,13 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _enemySpawnTransform;
+
+    [Header("Enemy Group Config")]
     [SerializeField] private float _updateCooldown = 3f;
     [SerializeField] private float _movementDist = 0.25f;
     [SerializeField] private int _rowSize = 10;
     [SerializeField] private int _colSize = 8;
+    
     [HideInInspector] public float totalHorizDistance;
     private GameObject[] _enemyList;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
