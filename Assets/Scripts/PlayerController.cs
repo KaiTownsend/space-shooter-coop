@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
 
+    [HideInInspector] public float _health;
     private SpriteRenderer _spriteRenderer;
     private List<GameObject> _bulletList;
-    private float _health;
     private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;

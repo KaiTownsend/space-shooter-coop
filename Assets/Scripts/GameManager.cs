@@ -1,8 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private EnemyManager _enemyManager;
+    [SerializeField] private UIManager _uiManager;
     
     [Header("Border Transforms")]
     [SerializeField] private Transform _topBorder;
@@ -10,9 +12,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _rightBorder;
     [SerializeField] private Transform _leftBorder;
 
+    [HideInInspector] public bool _isGamePaused;
+    private float _gameTime;
+    
+
     private void Start()
     {
         SetupBorders();
+    }
+
+    private void Update()
+    {
+        if (!_isGamePaused)
+        {
+            _gameTime += Time.deltaTime;
+            _uiManager.UpdateTimer(_gameTime);
+        }
+        
     }
 
     private void SetupBorders()

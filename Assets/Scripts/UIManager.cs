@@ -1,16 +1,16 @@
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private TMP_Text _timerText;
+    // [SerializeField] 
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateTimer(float currentTime)
     {
-        
+        float minutes = (int)currentTime/60;
+        float seconds = (int)currentTime%60;
+
+        _timerText.text = $"{minutes}m {seconds}s";
     }
 }
