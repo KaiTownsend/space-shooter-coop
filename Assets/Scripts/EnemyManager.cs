@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -9,8 +8,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private Transform _enemySpawnTransform;
     [SerializeField] private float _updateCooldown = 3f;
     [SerializeField] private float _movementDist = 0.25f;
+    [HideInInspector] public float totalHorizDistance;
     private GameObject[] _enemyList;
-    private int _rowSize = 20;
+    private int _rowSize = 10;
     private int _colSize = 8;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
     private float _updateTimer;
@@ -19,8 +19,8 @@ public class EnemyManager : MonoBehaviour
     {
         _enemyList = new GameObject[_colSize*_rowSize];
         _enemySpawnTransform.transform.position = new Vector3(_offsetDist/2f * (-_rowSize + 1f), 2.85f, 0f);
-        // float totalHorizDistance = _offsetDist*(_rowSize+1) + _enemyPrefab.GetComponent<BoxCollider2D>().size.x;
-        // Debug.Log(totalHorizDistance);
+
+        totalHorizDistance = 2*(_enemySpawnTransform.transform.position.x - _offsetDist);
     }
 
     private void Start()
