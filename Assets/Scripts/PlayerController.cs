@@ -13,15 +13,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _bulletSpread = 0.3f;
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
+
+    private SpriteRenderer _spriteRenderer;
     private List<GameObject> _bulletList;
     private float _health = 100f;
     private float _reloadTimer;
     private float _clampMin;
     private float _clampMax;
-    
+
     private void Awake()
     {
         _bulletList = new List<GameObject>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -47,10 +50,15 @@ public class PlayerController : MonoBehaviour
             _reloadTimer = 0f;
         }
 
-        // TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
-        if (Input.GetKey(KeyCode.U))
+        // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
+        if (Input.GetKey(KeyCode.U)) // changing basically anything bullet-related except mag size
         {
             UpdateBullets();
+        }
+
+        if (Input.GetKey(KeyCode.I)) // for changing mag size
+        {
+            CreateBullets();
         }
     }
 

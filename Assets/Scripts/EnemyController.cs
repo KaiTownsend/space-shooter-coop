@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     {
         if (collider.gameObject.name == "Bottom Border")
         {
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().TakeDamage(10);
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().TakeDamage(5);
         }
     }
 
