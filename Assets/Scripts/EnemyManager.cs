@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float _movementDist = 0.25f;
     [HideInInspector] public float totalHorizDistance;
     private GameObject[] _enemyList;
-    private int _rowSize = 10;
+    private int _rowSize = 20;
     private int _colSize = 8;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
     private float _updateTimer;
@@ -19,8 +19,7 @@ public class EnemyManager : MonoBehaviour
     {
         _enemyList = new GameObject[_colSize*_rowSize];
         _enemySpawnTransform.transform.position = new Vector3(_offsetDist/2f * (-_rowSize + 1f), 2.85f, 0f);
-
-        totalHorizDistance = 2*(_enemySpawnTransform.transform.position.x - _offsetDist);
+        totalHorizDistance = Mathf.Abs(2*(_enemySpawnTransform.transform.position.x - _offsetDist));
     }
 
     private void Start()
