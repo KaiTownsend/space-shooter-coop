@@ -3,8 +3,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private float _movementSpeed = 5f;
+    [SerializeField] private GameObject _bulletContainerPrefab;
     [SerializeField] private Transform _enemySpawnTransform;
+    [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _bulletSize = 3f;
     [SerializeField] private float _bulletSpread = 0.5f;
     [SerializeField] private int _bulletBounces = 0;
@@ -39,15 +40,21 @@ public class PlayerController : MonoBehaviour
             Shoot();
             _reloadTimer = 0f;
         }
+
+        // TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
+        if (Input.GetKey(KeyCode.U))
+        {
+            UpdateBullets();
+        }
     }
 
     private void CreateBullets()
     { 
+        GameObject bulletContainerPrefab = Instantiate(_bulletContainerPrefab);
+
         for (int i = 0; i < _bulletList.Length; i++)
         {
-            Vector3 shootPosition = new Vector3 (transform.position.x, transform.position.y + 0.3f, transform.position.z);
-            GameObject bulletPrefab = Instantiate(_bulletPrefab, shootPosition, transform.rotation);
-
+            GameObject bulletPrefab = Instantiate(_bulletPrefab, bulletContainerPrefab.transform);
             _bulletList[i] = bulletPrefab;
         }
 

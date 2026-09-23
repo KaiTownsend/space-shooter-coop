@@ -7,6 +7,7 @@ public class BulletController : MonoBehaviour
     [SerializeField] private float _damage = 100f;
     [HideInInspector] public float bulletSpread = 0f;
     [HideInInspector] public int bulletBounces = 0;
+    private int xDirection = 1;
     private int yDirection = 1;
     private float uniqueBulletSpread;
     private int bulletBounceCounter;
@@ -14,14 +15,16 @@ public class BulletController : MonoBehaviour
     private void OnEnable()
     {
         uniqueBulletSpread = Random.Range(-bulletSpread, bulletSpread);
-        // StartCoroutine(DisableAfterWait(1));
+
         bulletBounceCounter = bulletBounces;
+
+        xDirection = 1;
+        yDirection = 1;
     }
 
     private void Update()
     {
-        // may need an if statement where after it bounces there's one without uniqueBulletSpread. will test later.
-        transform.position = new Vector3(transform.position.x + uniqueBulletSpread * Time.deltaTime, transform.position.y + _speed * yDirection * Time.deltaTime, transform.position.z);
+        transform.position = new Vector3(transform.position.x + uniqueBulletSpread * xDirection * Time.deltaTime, transform.position.y + _speed * yDirection * Time.deltaTime, transform.position.z);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -39,15 +42,28 @@ public class BulletController : MonoBehaviour
         }
         else
         {
-            yDirection = -yDirection;
+            if (enemyController != null)
+            {
+                if (Mathf.Abs(enemyController.transform.position.x - transform.position.x) > Mathf.Abs(enemyController.transform.position.y - transform.position.y))
+                {
+                    xDirection = -xDirection;
+                }
+                else
+                {
+                    yDirection = -yDirection;
+                }
+            }
+
+            if (collider.gameObject.name == "Left Border" || collider.gameObject.name == "Right Border")
+            {
+                xDirection = -xDirection;
+            }
+            else if (collider.gameObject.name == "Top Border" || collider.gameObject.name == "Bottom Border")
+            {
+                yDirection = -yDirection;
+            }
+            
             bulletBounceCounter--;
         }
     }
-
-    // private IEnumerator DisableAfterWait(int timeInSec)
-    // {
-    //     yield return new WaitForSeconds(timeInSec);
-    //     gameObject.SetActive(false);
-    // }
-
 }
