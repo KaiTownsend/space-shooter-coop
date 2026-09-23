@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
         //if and else if to be deleted once I have a button setup for a menu or such.
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -49,7 +48,6 @@ public class GameManager : MonoBehaviour
             _gameTime += Time.deltaTime;
             _uiManager.UpdateTimerText(_gameTime);
         }
-        
     }
 
     private void SetupBorders()
@@ -71,7 +69,7 @@ public class GameManager : MonoBehaviour
     private void PauseGame()
     {
         isGamePaused = true;
-        
+
         Debug.Log("Game Paused");
 
     }

@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("TextMeshPro")]
     [SerializeField] private TMP_Text _timerText;
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _magText;
+    
     private PlayerController _playerController;
 
     private void Awake()
