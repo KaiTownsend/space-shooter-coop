@@ -1,4 +1,3 @@
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
@@ -13,6 +12,8 @@ public class BulletController : MonoBehaviour
     private int yDirection = 1;
     private float uniqueBulletSpread;
     private int bulletBounceCounter;
+
+    
 
     private void Awake()
     {
