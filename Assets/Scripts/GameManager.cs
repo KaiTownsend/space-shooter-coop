@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Main")]
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private UIManager _uiManager;
     
@@ -10,6 +11,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _bottomBorder;
     [SerializeField] private Transform _rightBorder;
     [SerializeField] private Transform _leftBorder;
+
+    [Header("Level Variables")]
+    [SerializeField] private float _levelTimeInterval = 30f;
+    [SerializeField] private int _levelsToWin = 20;
+    private int _currentLevel;
 
     [HideInInspector] public bool isGamePaused;
     private PlayerController _playerController;
@@ -44,10 +50,17 @@ public class GameManager : MonoBehaviour
             ResetAndPause();
         }
 
-        if (!isGamePaused)
+        if (isGamePaused) return;
+
+        _gameTime += Time.deltaTime;
+        _uiManager.UpdateTimerText(_gameTime);
+
+        if (_gameTime % 30 == 0 && _gameTime != 0)
         {
-            _gameTime += Time.deltaTime;
-            _uiManager.UpdateTimerText(_gameTime);
+            _currentLevel++;
+            ResetAndPause();
+            _uiManager.EnableLevelUpScreen();
+            isGamePaused = true;
         }
     }
 
@@ -90,7 +103,5 @@ public class GameManager : MonoBehaviour
 
         _enemyManager.ResetEnemies();
         _enemyManager.updateTimer = 0f;
-
-        Debug.Log("Game Reset And Paused");
     }
 }

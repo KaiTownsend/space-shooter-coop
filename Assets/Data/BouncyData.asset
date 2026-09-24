@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: BouncyData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradableData
   UpgradeName: Bouncy
-  MovementSpeed: 0
-  MaxHealth: 0
-  MagSize: 3
-  BulletSize: 0
-  BulletSpread: 4
-  BulletBounces: 5
-  ShootCooldown: 0
+  MovementSpeedToAdd: 0
+  MaxHealthToAdd: 0
+  MagSizeToAdd: 5
+  BulletSizeToAdd: 0
+  BulletSpreadToAdd: 5
+  BulletBouncesToAdd: 6
+  ShootCooldownToAdd: 0
