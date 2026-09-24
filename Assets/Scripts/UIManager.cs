@@ -14,8 +14,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _magText;
 
     [Header("Upgrades")]
+    [SerializeField] private Transform _upgradeContainer;
     [SerializeField] private PlayerUpgradableData[] _playerUpgradableData;
     [SerializeField] private Button[] _upgradeButtons;
+    
     private int[] _chosenUpgradeIndexes;
 
     private PlayerController _playerController;
@@ -24,7 +26,6 @@ public class UIManager : MonoBehaviour
     {
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         _chosenUpgradeIndexes = new int[3];
-        EnableLevelUpScreen();
     }
 
     public void UpdateTimerText(float currentTime)
@@ -59,8 +60,9 @@ public class UIManager : MonoBehaviour
 
     public void EnableLevelUpScreen()
     {
+        _upgradeContainer.gameObject.SetActive(true);
         SelectRandomUpgrades();
-        // display upgrades on screen by looping through the scriptableobject array and showing 3 random upgrades as buttons
+
     }
 
     public void ResumeGameAndLevelUpPlayer()

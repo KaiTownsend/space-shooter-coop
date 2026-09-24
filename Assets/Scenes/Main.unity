@@ -711,10 +711,10 @@ RectTransform:
   - {fileID: 375717856}
   m_Father: {fileID: 1996405803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1150.8334, y: -446}
+  m_SizeDelta: {x: 428.33334, y: 852}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400183102
 MonoBehaviour:
@@ -1066,10 +1066,10 @@ RectTransform:
   - {fileID: 1523429929}
   m_Father: {fileID: 1996405803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 234.16667, y: -446}
+  m_SizeDelta: {x: 428.33334, y: 852}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &522958308
 MonoBehaviour:
@@ -1631,6 +1631,7 @@ MonoBehaviour:
   _timerText: {fileID: 396291118}
   _healthText: {fileID: 2124749733}
   _magText: {fileID: 809560210}
+  _upgradeContainer: {fileID: 1996405803}
   _playerUpgradableData:
   - {fileID: 11400000, guid: e8457aecb97cce4419c64d3e962024c2, type: 2}
   - {fileID: 11400000, guid: 56e21f6230815964e9a05d3ae09c715e, type: 2}
@@ -2107,10 +2108,10 @@ RectTransform:
   - {fileID: 1641681303}
   m_Father: {fileID: 1996405803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 692.5, y: -446}
+  m_SizeDelta: {x: 428.33334, y: 852}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1801855646
 MonoBehaviour:
@@ -2439,7 +2440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1996405803
 RectTransform:
   m_ObjectHideFlags: 0

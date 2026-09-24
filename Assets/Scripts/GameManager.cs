@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _levelTimeInterval = 30f;
     [SerializeField] private int _levelsToWin = 20;
     private int _currentLevel;
+    private float _gameTime;
+    private float _levelTimer;
 
     [HideInInspector] public bool isGamePaused;
     private PlayerController _playerController;
-    private float _gameTime;
+    
     
 
     private void Awake()
@@ -55,9 +57,13 @@ public class GameManager : MonoBehaviour
         _gameTime += Time.deltaTime;
         _uiManager.UpdateTimerText(_gameTime);
 
-        if (_gameTime % 30 == 0 && _gameTime != 0)
+        _levelTimer += Time.deltaTime;
+
+        if (_levelTimer >= _levelTimeInterval)
         {
             _currentLevel++;
+            _levelTimer = 0;
+
             ResetAndPause();
             _uiManager.EnableLevelUpScreen();
             isGamePaused = true;
