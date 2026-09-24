@@ -499,6 +499,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c1913ccc9e59c43a6415bffd80a7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  _playerUpgradableData:
+  - {fileID: 11400000, guid: 56e21f6230815964e9a05d3ae09c715e, type: 2}
+  - {fileID: 11400000, guid: e8457aecb97cce4419c64d3e962024c2, type: 2}
+  - {fileID: 11400000, guid: 3ba0318f28f16da4da4663dd282dcee9, type: 2}
   _uiManager: {fileID: 1154474461}
   _bulletPrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _bulletContainerPrefab: {fileID: 5058976492316276587, guid: bf62baa073374604ea106c74c108b6a2, type: 3}
@@ -514,7 +518,7 @@ MonoBehaviour:
   _bulletSpread: 0
   _bulletBounces: 0
   _shootCooldown: 0.25
-  reloadTimer: 0
+  ReloadTimer: 0
 --- !u!65 &396446691
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         PauseGame();
 
         _playerController.ResetPlayerAndBullets();
-        _playerController.reloadTimer = 0f;
+        _playerController.ReloadTimer = 0f;
 
         _enemyManager.ResetEnemies();
         _enemyManager.updateTimer = 0f;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private PlayerUpgradableData[] _playerUpgradableData;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
 
-    [HideInInspector] public float reloadTimer;
+    [HideInInspector] public float ReloadTimer;
     public float health { get; private set; }
     private GameManager _gameManager;
     private GameObject _bulletContainer;
@@ -75,12 +76,12 @@ public class PlayerController : MonoBehaviour
         float inputDirection = Input.GetAxisRaw("Horizontal");
         transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 
-        reloadTimer += Time.deltaTime;
+        ReloadTimer += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && reloadTimer >= _shootCooldown)
+        if (Input.GetKey(KeyCode.Space) && ReloadTimer >= _shootCooldown)
         {
             Shoot();
-            reloadTimer = 0f;
+            ReloadTimer = 0f;
         }
 
         // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
