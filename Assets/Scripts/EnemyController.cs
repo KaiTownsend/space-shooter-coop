@@ -6,13 +6,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private ParticleSystem _deathParticles;
     private Transform _enemyContainer;
     private float _healthPoints = 100f;
-    
+
     private void Start()
     {
         _enemyContainer = transform.parent.gameObject.transform;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.name == "Bottom Border")
         {
