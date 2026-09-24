@@ -7,7 +7,7 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public float bulletSpread = 0f;
     [HideInInspector] public int bulletBounces = 0;
     private GameManager _gameManager;
-    private Rigidbody2D _rigidBody2D;
+    private Rigidbody _rigidBody2D;
     private int xDirection = 1;
     private int yDirection = 1;
     private float uniqueBulletSpread;
@@ -16,7 +16,7 @@ public class BulletController : MonoBehaviour
     private void Awake()
     {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        _rigidBody2D = GetComponent<Rigidbody2D>();
+        _rigidBody2D = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -41,8 +41,13 @@ public class BulletController : MonoBehaviour
         // _rigidBody2D.linearVelocity
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter(Collider collider)
     {
+        if (collider.tag == "Bullet")
+        {
+            return;
+        }
+
         EnemyController enemyController = collider.gameObject.GetComponent<EnemyController>();
 
         if (enemyController != null)
