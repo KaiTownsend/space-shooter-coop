@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62475a97e4648e64985da79484727934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
-  _speed: 1
+  _speed: 3
   _damage: 100
   bulletSpread: 0.1
   bulletBounces: 0

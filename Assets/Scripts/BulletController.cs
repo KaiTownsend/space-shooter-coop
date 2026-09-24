@@ -1,3 +1,4 @@
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
@@ -7,7 +8,7 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public float bulletSpread = 0f;
     [HideInInspector] public int bulletBounces = 0;
     private GameManager _gameManager;
-    private Rigidbody _rigidBody2D;
+    private Rigidbody _rigidBody;
     private int xDirection = 1;
     private int yDirection = 1;
     private float uniqueBulletSpread;
@@ -16,7 +17,7 @@ public class BulletController : MonoBehaviour
     private void Awake()
     {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        _rigidBody2D = GetComponent<Rigidbody>();
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -36,9 +37,9 @@ public class BulletController : MonoBehaviour
             return;
         }
 
-        Vector2 bulletDirection = new Vector2(transform.position.x + uniqueBulletSpread * xDirection * Time.fixedDeltaTime, transform.position.y + _speed * yDirection * Time.fixedDeltaTime);
-        _rigidBody2D.MovePosition(bulletDirection);
-        // _rigidBody2D.linearVelocity
+        Vector3 spreadDirection = new Vector3(uniqueBulletSpread * xDirection, yDirection);
+        Vector3 newPosition = _rigidBody.position + spreadDirection.normalized * _speed * Time.fixedDeltaTime;
+        _rigidBody.MovePosition(newPosition);
     }
 
     private void OnTriggerEnter(Collider collider)

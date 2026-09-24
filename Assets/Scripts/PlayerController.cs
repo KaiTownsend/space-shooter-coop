@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [Header("Gun/Bullet Stats")]
     [SerializeField] private int _magSize = 1;
     [SerializeField] private float _bulletSize = 3f;
-    [SerializeField] private float _bulletSpread = 0.3f;
+    [SerializeField] private float _bulletSpread = 0f;
     [SerializeField] private int _bulletBounces = 0;
     [SerializeField] private float _shootCooldown = 0.25f;
 
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
             
         }
         _uiManager.UpdateMagText(availableBulletCount, _bulletList.Count);
-        
+
         if (_gameManager.isGamePaused)
         {
 

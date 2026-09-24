@@ -509,11 +509,11 @@ MonoBehaviour:
   _lowHPSprite: {fileID: 6372854951805474705, guid: bfb0dbfc341dff84e8a1276fa3d06cf2, type: 3}
   _movementSpeed: 5
   _maxHealth: 100
-  _magSize: 121
-  _bulletSize: 12.29
-  _bulletSpread: 8.79
-  _bulletBounces: 108
-  _shootCooldown: 0.03
+  _magSize: 1
+  _bulletSize: 3
+  _bulletSpread: 0
+  _bulletBounces: 0
+  _shootCooldown: 0.25
   reloadTimer: 0
 --- !u!65 &396446691
 BoxCollider:
