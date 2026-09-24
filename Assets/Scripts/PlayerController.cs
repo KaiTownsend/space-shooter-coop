@@ -55,8 +55,20 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        int availableBulletCount = 0;
+        foreach (GameObject bullet in _bulletList)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                availableBulletCount++;
+            }
+            
+        }
+        _uiManager.UpdateMagText(availableBulletCount, _bulletList.Count);
+        
         if (_gameManager.isGamePaused)
         {
+
             return;
         }
 
@@ -70,19 +82,6 @@ public class PlayerController : MonoBehaviour
             Shoot();
             reloadTimer = 0f;
         }
-
-        int availableBulletCount = 0;
-        foreach (GameObject bullet in _bulletList)
-        {
-            if (!bullet.activeInHierarchy)
-            {
-                availableBulletCount++;
-            }
-            
-        }
-        _uiManager.UpdateMagText(availableBulletCount, _bulletList.Count);
-
-        
 
         // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
         if (Input.GetKey(KeyCode.I)) // updates and creates new bullets

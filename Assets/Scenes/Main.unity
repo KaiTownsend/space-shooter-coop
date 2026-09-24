@@ -2045,7 +2045,7 @@ MonoBehaviour:
   _enemySpawnTransform: {fileID: 586041130}
   _updateCooldown: 4
   _movementDist: 0.25
-  _rowSize: 20
+  _rowSize: 10
   _colSize: 8
   totalHorizDistance: 0
   updateTimer: 0
@@ -2208,11 +2208,11 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
+  - {fileID: 396446689}
+  - {fileID: 1893228421}
+  - {fileID: 403894314}
   - {fileID: 1862454817}
   - {fileID: 1154474462}
   - {fileID: 2076801871}
   - {fileID: 586041130}
   - {fileID: 1559643945}
-  - {fileID: 396446689}
-  - {fileID: 1893228421}
-  - {fileID: 403894314}

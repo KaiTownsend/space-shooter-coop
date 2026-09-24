@@ -92,7 +92,5 @@ public class GameManager : MonoBehaviour
         _enemyManager.updateTimer = 0f;
 
         Debug.Log("Game Reset And Paused");
-
-        
     }
 }
