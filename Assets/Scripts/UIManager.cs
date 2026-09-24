@@ -65,9 +65,9 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void ResumeGameAndLevelUpPlayer()
+    public void ResumeGameAndLevelUpPlayer(int buttonIndex)
     {
-        
+        Debug.Log(buttonIndex);
     }
 
     private void SelectRandomUpgrades()
