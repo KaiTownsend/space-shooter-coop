@@ -28,11 +28,6 @@ public class UIManager : MonoBehaviour
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _chosenUpgradeIndexes = new int[3];
-
-        for (int i = 0; i < 3; i++)
-        {
-            Debug.Log($"UIManager: {_playerUpgradableData[i]} {i}");
-        }
     }
 
     public void UpdateTimerText(float currentTime)
@@ -73,19 +68,30 @@ public class UIManager : MonoBehaviour
 
     public void ResumeGameAndLevelUpPlayer(int buttonIndex)
     {
-        _playerController.ChangeStatsFromUpgrade(buttonIndex);
+        Debug.Log(_upgradeButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text);
+        int upgradeIndex = 0;
+
+        for (int i = 0; i < _playerUpgradableData.Length; i++)
+        {
+            if (_playerUpgradableData[i].UpgradeName == _upgradeButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text)
+            {
+                upgradeIndex = i;
+                break;
+            }
+        }
+
+
+        _playerController.ChangeStatsFromUpgrade(upgradeIndex);
         _gameManager.ResumeGame();
         _upgradeContainer.gameObject.SetActive(false);
     }
 
     private void SelectRandomUpgrades()
     {   
-        _chosenUpgradeIndexes = GetUniqueRandomNumbersShuffle(0, 2, 3).ToArray();
+        _chosenUpgradeIndexes = GetUniqueRandomNumbersShuffle(0, _playerUpgradableData.Length-1, _playerUpgradableData.Length).ToArray();
         for (int i = 0; i < 3; i++)
         {
             _upgradeButtons[i].GetComponentInChildren<TMP_Text>().text = _playerUpgradableData[_chosenUpgradeIndexes[i]].UpgradeName;
-            // problem: I need to set the buttonIndex that is passed in throguh the onclick in the buttons dynamically depending on the _chosenUpgradeIndexes[i]
-            // my theoretical code would be: _upgradeButtons[i].GetComponent<Button>().OnClickParameter = _chosenUpgradeIndexes[i]; but nothing like this exists and any online solutions were very complicated to me
         }
     }
 

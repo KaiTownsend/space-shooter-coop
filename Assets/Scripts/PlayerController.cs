@@ -41,11 +41,6 @@ public class PlayerController : MonoBehaviour
         _bulletContainer = Instantiate(_bulletContainerPrefab);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-
-        for (int i = 0; i < 3; i++)
-        {
-            Debug.Log($"UIManager: {_playerUpgradableDataList[i]} {i}");
-        }
     }
 
     private void Start()
@@ -93,7 +88,6 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damageAmt)
     {
         health -= damageAmt;
-        Debug.Log(health);
         UpdateShipState();
         _uiManager.UpdateHealthText(_maxHealth);
     }
