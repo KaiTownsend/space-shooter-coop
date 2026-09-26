@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private EnemyController _enemyPrefab;
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _enemySpawnTransform;
+    [SerializeField] private AudioManager _audioManager;
 
     [Header("Enemy Group Config")]
     [SerializeField] private float _updateCooldown = 3f;
@@ -16,14 +17,13 @@ public class EnemyManager : MonoBehaviour
     [HideInInspector] public float totalHorizDistance;
     [HideInInspector] public float updateTimer;
     private GameManager _gameManager;
-    private GameObject[] _enemyList;
+    private EnemyController[] _enemyList;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
-    
     
     private void Awake()
     {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        _enemyList = new GameObject[_colSize*_rowSize];
+        _enemyList = new EnemyController[_colSize*_rowSize];
         _enemySpawnTransform.transform.position = new Vector3(_offsetDist/2f * (-_rowSize + 1f), 2.85f, 0f);
         totalHorizDistance = Mathf.Abs(2*(_enemySpawnTransform.transform.position.x - _offsetDist));
     }
@@ -54,7 +54,7 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < _enemyList.Length; i++)
         {
-            _enemyList[i].SetActive(true);
+            _enemyList[i].gameObject.SetActive(true);
             _enemyList[i].transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
         }
     }
@@ -63,10 +63,11 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < _enemyList.Length; i++)
         {
-            GameObject enemyPrefab = Instantiate(_enemyPrefab, _enemyContainer);
-            _enemyList[i] = enemyPrefab;
+            EnemyController enemy = Instantiate(_enemyPrefab, _enemyContainer);
+            _enemyList[i] = enemy;
 
-            enemyPrefab.transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
+            enemy.SetAudioManager(_audioManager);
+            enemy.transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
         }
     }
 
@@ -77,7 +78,7 @@ public class EnemyManager : MonoBehaviour
 
     private void MoveAll()
     {
-        foreach (GameObject enemy in _enemyList)
+        foreach (EnemyController enemy in _enemyList)
         {
             enemy.transform.position += new Vector3(0, -_movementDist, 0);
         }
@@ -99,7 +100,7 @@ public class EnemyManager : MonoBehaviour
                 break;
             }
 
-            if (_enemyList[i].activeInHierarchy == false)
+            if (_enemyList[i].gameObject.activeInHierarchy == false)
             {
                 int randomIndex = Random.Range(0, randomNumsList.Count);
                 int uniqueNum = randomNumsList[randomIndex];

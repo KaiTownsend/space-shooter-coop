@@ -1288,6 +1288,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &776817190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 776817191}
+  - component: {fileID: 776817192}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &776817191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776817190}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.65223, y: 1.06987, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &776817192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776817190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ac019ae2500454689610963cb63afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  _audioClip: {fileID: 8300000, guid: 87810d0bc249d26408452386988ca979, type: 3}
 --- !u!1 &809560208
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,9 +2832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeeb8127cbc9dcf4c883cc0ad4f924e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  _enemyPrefab: {fileID: 6497348168935668700, guid: a3ec29bd8ce2dd34da26c3ce577ff89d, type: 3}
+  _enemyPrefab: {fileID: 6050492268853687289, guid: a3ec29bd8ce2dd34da26c3ce577ff89d, type: 3}
   _enemyContainer: {fileID: 1559643945}
   _enemySpawnTransform: {fileID: 586041130}
+  _audioManager: {fileID: 776817192}
   _updateCooldown: 4
   _movementDist: 0.25
   _rowSize: 10
@@ -2962,5 +3008,6 @@ SceneRoots:
   - {fileID: 1862454817}
   - {fileID: 1154474462}
   - {fileID: 2076801871}
+  - {fileID: 776817191}
   - {fileID: 586041130}
   - {fileID: 1559643945}

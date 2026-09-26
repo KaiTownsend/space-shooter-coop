@@ -4,7 +4,9 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _spawnParticles;
     [SerializeField] private ParticleSystem _deathParticles;
+    private AudioManager _audioManager;
     private Transform _enemyContainer;
+    
     private float _healthPoints = 100f;
 
     private void Start()
@@ -22,6 +24,8 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(float damageAmt)
     {
+        _audioManager.PlayAudioOnHit();
+        
         _healthPoints -= damageAmt;
 
         if (_healthPoints <= 0)
@@ -50,5 +54,10 @@ public class EnemyController : MonoBehaviour
             _deathParticles.transform.localRotation = Quaternion.identity;
             _deathParticles.Stop();
         }
+    }
+
+    public void SetAudioManager(AudioManager audioManager)
+    {
+        _audioManager = audioManager;
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbb57ca577a0154b9eed024494e16b3, type: 3}
   m_Name: SuperQuickShotData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradableData
-  UpgradeName: Quick Shot
+  UpgradeName: Super Quick Shot
   MovementSpeedToAdd: 5
   MaxHealthToAdd: 0
   MagSizeToAdd: 50
