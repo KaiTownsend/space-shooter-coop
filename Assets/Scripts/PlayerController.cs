@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private PlayerUpgradableData[] _playerUpgradableData;
+    [SerializeField] private PlayerUpgradableData[] _playerUpgradableDataList;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
@@ -41,6 +41,11 @@ public class PlayerController : MonoBehaviour
         _bulletContainer = Instantiate(_bulletContainerPrefab);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log($"UIManager: {_playerUpgradableDataList[i]} {i}");
+        }
     }
 
     private void Start()
@@ -51,7 +56,7 @@ public class PlayerController : MonoBehaviour
         health = _maxHealth;
         _uiManager.UpdateHealthText(_maxHealth);
 
-        CreateBullets();
+        CreateAndUpdateBullets();
     }
 
     private void Update()
@@ -83,12 +88,6 @@ public class PlayerController : MonoBehaviour
             Shoot();
             ReloadTimer = 0f;
         }
-
-        // BOTH METHODS ARE TEST CODE TO BE REMOVED WHEN I HAVE BULLETS AUTO UPDATE!!!!!!!!!
-        if (Input.GetKey(KeyCode.I)) // updates and creates new bullets
-        {
-            CreateBullets();
-        }
     }
 
     public void TakeDamage(float damageAmt)
@@ -112,6 +111,23 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector3 (0, -0.8f, 0);
     }
 
+    public void ChangeStatsFromUpgrade(int upgradeIndex)
+    {
+        PlayerUpgradableData playerUpgrade = _playerUpgradableDataList[upgradeIndex];
+        Debug.Log($"upgrade: {playerUpgrade.UpgradeName}");
+
+        _movementSpeed += playerUpgrade.MovementSpeedToAdd;
+        _maxHealth += playerUpgrade.MaxHealthToAdd;
+        
+        _bulletSize += playerUpgrade.BulletSizeToAdd;
+        _bulletSpread += playerUpgrade.BulletSpreadToAdd;
+        _bulletBounces += playerUpgrade.BulletBouncesToAdd;
+        _shootCooldown += playerUpgrade.ShootCooldownToAdd;
+        _magSize += playerUpgrade.MagSizeToAdd;
+
+        CreateAndUpdateBullets();
+    }
+
     private void UpdateShipState()
     {
         if (health > (0.80 * _maxHealth)) _spriteRenderer.sprite = _maxHPSprite;
@@ -125,19 +141,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CreateBullets()
+    private void CreateAndUpdateBullets()
     {
+
         for (int i = 0; i < (_magSize - _bulletList.Count); i++)
         {
             GameObject bulletPrefab = Instantiate(_bulletPrefab, _bulletContainer.transform);
             _bulletList.Add(bulletPrefab);
         }
 
-        UpdateBullets();
-    }
-
-    private void UpdateBullets()
-    {
         foreach (GameObject bullet in _bulletList)
         {
             BulletController bulletController = bullet.GetComponent<BulletController>();

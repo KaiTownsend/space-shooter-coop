@@ -21,11 +21,18 @@ public class UIManager : MonoBehaviour
     private int[] _chosenUpgradeIndexes;
 
     private PlayerController _playerController;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _chosenUpgradeIndexes = new int[3];
+
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log($"UIManager: {_playerUpgradableData[i]} {i}");
+        }
     }
 
     public void UpdateTimerText(float currentTime)
@@ -62,12 +69,13 @@ public class UIManager : MonoBehaviour
     {
         _upgradeContainer.gameObject.SetActive(true);
         SelectRandomUpgrades();
-
     }
 
     public void ResumeGameAndLevelUpPlayer(int buttonIndex)
     {
-        Debug.Log(buttonIndex);
+        _playerController.ChangeStatsFromUpgrade(buttonIndex);
+        _gameManager.ResumeGame();
+        _upgradeContainer.gameObject.SetActive(false);
     }
 
     private void SelectRandomUpgrades()
@@ -76,11 +84,12 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             _upgradeButtons[i].GetComponentInChildren<TMP_Text>().text = _playerUpgradableData[_chosenUpgradeIndexes[i]].UpgradeName;
+            // problem: I need to set the buttonIndex that is passed in throguh the onclick in the buttons dynamically depending on the _chosenUpgradeIndexes[i]
+            // my theoretical code would be: _upgradeButtons[i].GetComponent<Button>().OnClickParameter = _chosenUpgradeIndexes[i]; but nothing like this exists and any online solutions were very complicated to me
         }
     }
 
     private static readonly System.Random _random = new System.Random();
-
     public static List<int> GetUniqueRandomNumbersShuffle(int min, int max, int count) // come back and try to understand this later !!!!
     {
         int rangeSize = max - min + 1;

@@ -65,8 +65,8 @@ public class GameManager : MonoBehaviour
             _levelTimer = 0;
 
             ResetAndPause();
-            _uiManager.EnableLevelUpScreen();
             isGamePaused = true;
+            _uiManager.EnableLevelUpScreen();
         }
     }
 
@@ -86,14 +86,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void PauseGame()
+    public void PauseGame()
     {
         isGamePaused = true;
 
         _uiManager.UpdateGameStatusText(isGamePaused);
     }
 
-    private void ResumeGame()
+    public void ResumeGame()
     {
         isGamePaused = false;
 
