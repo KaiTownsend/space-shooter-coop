@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "space-shooter-coop.slnx"
+    "dotnet.defaultSolution": "coop-space-shooter.slnx"
 }
