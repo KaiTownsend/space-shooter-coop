@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerUpgradableData[] _playerUpgradableDataList;
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
-    [SerializeField] private Transform _enemySpawnTransform;
     
     [Header("Ship Sprites")]
     [SerializeField] private Sprite _maxHPSprite;
@@ -33,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public float Health { get; private set; }
     private GameManager _gameManager;
     private GameObject _bulletContainer;
+    private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
     private List<BulletController> _bulletList;
     private float _clampMin;
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
         _bulletContainer = Instantiate(_bulletContainerPrefab);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
 
         CreateAndUpdateBullets();
     }
