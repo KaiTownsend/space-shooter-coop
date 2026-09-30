@@ -68,7 +68,6 @@ public class UIManager : MonoBehaviour
 
     public void ResumeGameAndLevelUpPlayer(int buttonIndex)
     {
-        Debug.Log(_upgradeButtons[buttonIndex].GetComponentInChildren<TMP_Text>().text);
         int upgradeIndex = 0;
 
         for (int i = 0; i < _playerUpgradableData.Length; i++)

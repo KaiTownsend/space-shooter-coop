@@ -721,6 +721,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ba0318f28f16da4da4663dd282dcee9, type: 2}
   - {fileID: 11400000, guid: 62faf5887e7b2b7458991c9be291d0fc, type: 2}
   - {fileID: 11400000, guid: 678ab806d5f8b9a4d9ce825c7505e78b, type: 2}
+  - {fileID: 11400000, guid: a48bf0370f2964dbd924f5e13576174d, type: 2}
   _uiManager: {fileID: 1154474461}
   _bulletPrefab: {fileID: 4696386133154032768, guid: ecf46a81b6cd8e741a2bb768b40fefdd, type: 3}
   _bulletContainerPrefab: {fileID: 5058976492316276587, guid: bf62baa073374604ea106c74c108b6a2, type: 3}
@@ -1788,6 +1789,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ba0318f28f16da4da4663dd282dcee9, type: 2}
   - {fileID: 11400000, guid: 62faf5887e7b2b7458991c9be291d0fc, type: 2}
   - {fileID: 11400000, guid: 678ab806d5f8b9a4d9ce825c7505e78b, type: 2}
+  - {fileID: 11400000, guid: a48bf0370f2964dbd924f5e13576174d, type: 2}
   _upgradeButtons:
   - {fileID: 522958308}
   - {fileID: 1801855646}
@@ -2838,7 +2840,7 @@ MonoBehaviour:
   _enemyContainer: {fileID: 1559643945}
   _enemySpawnTransform: {fileID: 586041130}
   _audioManager: {fileID: 776817192}
-  _updateCooldown: 4
+  updateCooldown: 3
   _movementDist: 0.25
   _rowSize: 10
   _colSize: 8

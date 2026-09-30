@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [Header("Level Variables")]
     [SerializeField] private float _levelTimeInterval = 30f;
     [SerializeField] private int _levelsToWin = 20;
-    private int _currentLevel;
+    public int _currentLevel { get; private set; }
     private float _gameTime;
     private float _levelTimer;
 
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
         if (_levelTimer >= _levelTimeInterval)
         {
             _currentLevel++;
+            _enemyManager.updateCooldown -= 0.5f;
             _levelTimer = 0;
 
             ResetAndPause();

@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private AudioManager _audioManager;
 
     [Header("Enemy Group Config")]
-    [SerializeField] private float _updateCooldown = 3f;
+    public float updateCooldown = 3f;
     [SerializeField] private float _movementDist = 0.25f;
     [SerializeField] private int _rowSize = 10;
     [SerializeField] private int _colSize = 8;
@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour
 
         updateTimer += Time.deltaTime;
 
-        if (updateTimer >= _updateCooldown)
+        if (updateTimer >= updateCooldown)
         {
             MoveAll();
             RespawnTopRow();

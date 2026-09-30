@@ -108,7 +108,6 @@ public class PlayerController : MonoBehaviour
     public void ChangeStatsFromUpgrade(int upgradeIndex)
     {
         PlayerUpgradableData playerUpgrade = _playerUpgradableDataList[upgradeIndex];
-        Debug.Log($"upgrade: {playerUpgrade.UpgradeName}");
 
         _movementSpeed += playerUpgrade.MovementSpeedToAdd;
         _maxHealth += playerUpgrade.MaxHealthToAdd;
