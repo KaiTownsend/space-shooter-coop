@@ -2535,7 +2535,7 @@ MonoBehaviour:
   _bottomBorder: {fileID: 2064098304}
   _rightBorder: {fileID: 811637779}
   _leftBorder: {fileID: 1299041857}
-  _levelTimeInterval: 5
+  _levelTimeInterval: 15
   _levelsToWin: 20
   isGamePaused: 0
 --- !u!4 &1862454817

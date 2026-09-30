@@ -59,6 +59,14 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void AddMaxHealth(float healthToAdd)
+    {
+        foreach (EnemyController enemy in _enemyList)
+        {
+            enemy.maxHealth += healthToAdd;
+        }
+    }
+
     private void CreateEnemies()
     {
         for (int i = 0; i < _enemyList.Length; i++)

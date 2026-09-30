@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour
         if (_levelTimer >= _levelTimeInterval)
         {
             _currentLevel++;
-            _enemyManager.updateCooldown -= 0.5f;
+            _enemyManager.updateCooldown -= 0.3f;
+            _enemyManager.AddMaxHealth(50f);
             _levelTimer = 0;
 
             ResetAndPause();

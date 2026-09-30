@@ -62,6 +62,7 @@ public class BulletController : MonoBehaviour
         if (enemyController != null)
         {
             enemyController.TakeDamage(_damage);
+            Debug.Log("damage done: " + _damage);
         }
 
         if (_bulletBounceCounter <= 0)

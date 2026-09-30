@@ -2431,6 +2431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _spawnParticles: {fileID: 6877371558953808062}
   _deathParticles: {fileID: 6945182640915990118}
+  maxHealth: 100
 --- !u!95 &1994742027628302781
 Animator:
   serializedVersion: 7

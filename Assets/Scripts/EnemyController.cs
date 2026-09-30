@@ -6,8 +6,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private ParticleSystem _deathParticles;
     private AudioManager _audioManager;
     private Transform _enemyContainer;
-    public float maxHealth;
-    private float _healthPoints = 100f;
+    public float maxHealth = 100f;
+    private float _healthPoints;
+
+    private void Awake()
+    {
+        _healthPoints = maxHealth;
+    }
 
     private void Start()
     {
@@ -33,8 +38,6 @@ public class EnemyController : MonoBehaviour
             _deathParticles.transform.SetParent(_enemyContainer);
             _deathParticles.Play();
 
-            _healthPoints = maxHealth;
-
             gameObject.SetActive(false);
         }
     }
@@ -54,6 +57,8 @@ public class EnemyController : MonoBehaviour
             _deathParticles.transform.localRotation = Quaternion.identity;
             _deathParticles.Stop();
         }
+
+        _healthPoints = maxHealth;
     }
 
     public void SetAudioManager(AudioManager audioManager)
