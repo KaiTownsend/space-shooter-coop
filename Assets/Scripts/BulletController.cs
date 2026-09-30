@@ -8,10 +8,10 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public int bulletBounces = 0;
     private GameManager _gameManager;
     private Rigidbody _rigidBody;
-    private int xDirection = 1;
-    private int yDirection = 1;
-    private float uniqueBulletSpread;
-    private int bulletBounceCounter;
+    private int _xDirection = 1;
+    private int _yDirection = 1;
+    private float _uniqueBulletSpread;
+    private int _bulletBounceCounter;
 
     
 
@@ -23,12 +23,12 @@ public class BulletController : MonoBehaviour
 
     private void OnEnable()
     {
-        uniqueBulletSpread = Random.Range(-bulletSpread, bulletSpread);
+        _uniqueBulletSpread = Random.Range(-bulletSpread, bulletSpread);
 
-        bulletBounceCounter = bulletBounces;
+        _bulletBounceCounter = bulletBounces;
 
-        xDirection = 1;
-        yDirection = 1;
+        _xDirection = 1;
+        _yDirection = 1;
     }
 
     private void FixedUpdate()
@@ -38,7 +38,7 @@ public class BulletController : MonoBehaviour
             return;
         }
 
-        Vector3 spreadDirection = new Vector3(uniqueBulletSpread * xDirection, yDirection);
+        Vector3 spreadDirection = new Vector3(_uniqueBulletSpread * _xDirection, _yDirection);
         Vector3 newPosition = _rigidBody.position + spreadDirection.normalized * _speed * Time.fixedDeltaTime;
         _rigidBody.MovePosition(newPosition);
     }
@@ -57,7 +57,7 @@ public class BulletController : MonoBehaviour
             enemyController.TakeDamage(_damage);
         }
 
-        if (bulletBounceCounter <= 0)
+        if (_bulletBounceCounter <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -67,21 +67,21 @@ public class BulletController : MonoBehaviour
             {
                 if (Mathf.Abs(enemyController.transform.position.x - transform.position.x) > Mathf.Abs(enemyController.transform.position.y - transform.position.y))
                 {
-                    xDirection = -xDirection;
+                    _xDirection = -_xDirection;
                 }
                 else
                 {
-                    yDirection = -yDirection;
+                    _yDirection = -_yDirection;
                 }
             }
 
             if (collider.gameObject.name == "Left Border" || collider.gameObject.name == "Right Border")
             {
-                xDirection = -xDirection;
+                _xDirection = -_xDirection;
             }
             else if (collider.gameObject.name == "Top Border" || collider.gameObject.name == "Bottom Border")
             {
-                yDirection = -yDirection;
+                _yDirection = -_yDirection;
             }
 
             if (collider.gameObject.GetComponent<PlayerController>() != null) // even if you still have bounces. if you catch the balls, they're essentially reloaded
@@ -89,7 +89,7 @@ public class BulletController : MonoBehaviour
                 gameObject.SetActive(false);
             }
             
-            bulletBounceCounter--;
+            _bulletBounceCounter--;
         }
     }
 }
