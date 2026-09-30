@@ -28,6 +28,26 @@ public class UIManager : MonoBehaviour
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _chosenUpgradeIndexes = new int[3];
+
+        _playerController.OnTakeDamageEvent += OnTakeDamageEventHandler;
+        _playerController.OnUpdateBulletCountEvent += OnUpdateBulletCountEventHandler;
+    }
+
+    private void Start()
+    {
+        
+
+        UpdateHealthText(_playerController.MaxHealth);
+    }
+
+    private void OnTakeDamageEventHandler()
+    {
+        UpdateHealthText(_playerController.MaxHealth);
+    }
+
+    private void OnUpdateBulletCountEventHandler(int availableBullets, int maxBullets)
+    {
+        UpdateMagText(availableBullets, maxBullets);
     }
 
     public void UpdateTimerText(float currentTime)
@@ -40,7 +60,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHealthText(float maxHealth)
     {
-        _healthText.text = $"HP: {_playerController.health}/{maxHealth}";
+        _healthText.text = $"HP: {_playerController.Health}/{maxHealth}";
     }
 
     public void UpdateMagText(int bulletCount, int magSize)

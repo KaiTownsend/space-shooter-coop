@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public event Action OnTakeDamageEvent;
+    public event Action<int, int> OnUpdateBulletCountEvent;
+
     [SerializeField] private PlayerUpgradableData[] _playerUpgradableDataList;
-    [SerializeField] private UIManager _uiManager;
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
     [SerializeField] private Transform _enemySpawnTransform;
     
@@ -17,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("General Stats")]
     [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private float _maxHealth = 100f;
+    public float MaxHealth = 100f;
 
     [Header("Gun/Bullet Stats")]
     [SerializeField] private int _magSize = 1;
@@ -27,20 +30,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _shootCooldown = 0.25f;
 
     [HideInInspector] public float ReloadTimer;
-    public float health { get; private set; }
+    public float Health { get; private set; }
     private GameManager _gameManager;
     private GameObject _bulletContainer;
     private SpriteRenderer _spriteRenderer;
-    private List<GameObject> _bulletList;
+    private List<BulletController> _bulletList;
     private float _clampMin;
     private float _clampMax;
+    private int _availableBulletCount = 0;
 
     private void Awake()
     {
-        _bulletList = new List<GameObject>();
+        _bulletList = new List<BulletController>();
         _bulletContainer = Instantiate(_bulletContainerPrefab);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+
+        CreateAndUpdateBullets();
     }
 
     private void Start()
@@ -48,24 +54,19 @@ public class PlayerController : MonoBehaviour
         _clampMin = _enemySpawnTransform.position.x;
         _clampMax = -_enemySpawnTransform.position.x;
 
-        health = _maxHealth;
-        _uiManager.UpdateHealthText(_maxHealth);
+        Health = MaxHealth;
 
-        CreateAndUpdateBullets();
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
+
+        foreach (BulletController bullet in _bulletList)
+        {
+            bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
+        }
     }
 
     private void Update()
     {
-        int availableBulletCount = 0;
-        foreach (GameObject bullet in _bulletList)
-        {
-            if (!bullet.activeInHierarchy)
-            {
-                availableBulletCount++;
-            }
-            
-        }
-        _uiManager.UpdateMagText(availableBulletCount, _bulletList.Count);
+        // _uiManager.UpdateMagText(_availableBulletCount, _bulletList.Count);
 
         if (_gameManager.isGamePaused)
         {
@@ -85,24 +86,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDisableBulletEventHandler()
+    {
+        RecountAvailableBullets();
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
+    }
+
     public void TakeDamage(float damageAmt)
     {
-        health -= damageAmt;
+        Health -= damageAmt;
         UpdateShipState();
-        _uiManager.UpdateHealthText(_maxHealth);
+
+        OnTakeDamageEvent?.Invoke(); // shortcut for checking if it isnt null
     }
 
     public void ResetPlayerAndBullets()
     {
-        foreach (GameObject bullet in _bulletList)
+        foreach (BulletController bullet in _bulletList)
         {
-            if (bullet.activeInHierarchy)
+            if (bullet.gameObject.activeInHierarchy)
             {
-                bullet.SetActive(false);
+                bullet.gameObject.SetActive(false);
             }
         }
 
         transform.position = new Vector3 (0, -0.8f, 0);
+
+        RecountAvailableBullets();
     }
 
     public void ChangeStatsFromUpgrade(int upgradeIndex)
@@ -110,7 +120,7 @@ public class PlayerController : MonoBehaviour
         PlayerUpgradableData playerUpgrade = _playerUpgradableDataList[upgradeIndex];
 
         _movementSpeed += playerUpgrade.MovementSpeedToAdd;
-        _maxHealth += playerUpgrade.MaxHealthToAdd;
+        MaxHealth += playerUpgrade.MaxHealthToAdd;
         
         _bulletSize += playerUpgrade.BulletSizeToAdd;
         _bulletSpread += playerUpgrade.BulletSpreadToAdd;
@@ -123,10 +133,10 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateShipState()
     {
-        if (health > (0.80 * _maxHealth)) _spriteRenderer.sprite = _maxHPSprite;
-        else if (health > (0.6 * _maxHealth)) _spriteRenderer.sprite = _highHPSprite;
-        else if (health > (0.3 * _maxHealth)) _spriteRenderer.sprite = _mediumHPSprite;
-        else if (health > (0 * _maxHealth)) _spriteRenderer.sprite = _lowHPSprite;
+        if (Health > (0.80 * MaxHealth)) _spriteRenderer.sprite = _maxHPSprite;
+        else if (Health > (0.6 * MaxHealth)) _spriteRenderer.sprite = _highHPSprite;
+        else if (Health > (0.3 * MaxHealth)) _spriteRenderer.sprite = _mediumHPSprite;
+        else if (Health > (0 * MaxHealth)) _spriteRenderer.sprite = _lowHPSprite;
         else
         {
             _spriteRenderer.sprite = _lowHPSprite;
@@ -139,30 +149,47 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < (_magSize - _bulletList.Count); i++)
         {
-            GameObject bulletPrefab = Instantiate(_bulletPrefab, _bulletContainer.transform);
-            _bulletList.Add(bulletPrefab);
+            BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer.transform);
+            _bulletList.Add(bulletController);
         }
 
-        foreach (GameObject bullet in _bulletList)
+        foreach (BulletController bullet in _bulletList)
         {
-            BulletController bulletController = bullet.GetComponent<BulletController>();
-
             bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
-            bulletController.bulletSpread =  _bulletSpread;
-            bulletController.bulletBounces = _bulletBounces;
+            bullet.bulletSpread =  _bulletSpread;
+            bullet.bulletBounces = _bulletBounces;
         }
+
+        RecountAvailableBullets();
     }
 
     private void Shoot()
     {
-        foreach (GameObject bullet in _bulletList)
+        foreach (BulletController bullet in _bulletList)
         {
-            if (!bullet.activeInHierarchy)
+            if (!bullet.gameObject.activeInHierarchy)
             {
-                bullet.SetActive(true);
+                bullet.gameObject.SetActive(true);
                 bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _bulletList[0].transform.localScale.y / 80f, transform.position.z);
                 break;
             }
         }
+
+        RecountAvailableBullets();
+    }
+
+    private void RecountAvailableBullets()
+    {
+        _availableBulletCount = 0;
+
+        foreach (var bullet in _bulletList) // can use var instead of BulletController etc. this is same as foreach under shoot method
+        {
+            if (!bullet.gameObject.activeInHierarchy)
+            {
+                _availableBulletCount++;
+            }
+        }
+
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
     }
 }

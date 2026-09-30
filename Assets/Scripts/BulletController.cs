@@ -1,7 +1,10 @@
 using UnityEngine;
+using System;
 
 public class BulletController : MonoBehaviour
 {
+    public event Action OnDisableBulletEvent;
+
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _damage = 100f;
     [HideInInspector] public float bulletSpread = 0f;
@@ -30,7 +33,7 @@ public class BulletController : MonoBehaviour
             effectiveBulletSpread = 0;
         }
 
-        _uniqueBulletSpread = Random.Range(-effectiveBulletSpread, effectiveBulletSpread);
+        _uniqueBulletSpread = UnityEngine.Random.Range(-effectiveBulletSpread, effectiveBulletSpread);
 
         _bulletBounceCounter = bulletBounces;
 
@@ -62,7 +65,6 @@ public class BulletController : MonoBehaviour
         if (enemyController != null)
         {
             enemyController.TakeDamage(_damage);
-            Debug.Log("damage done: " + _damage);
         }
 
         if (_bulletBounceCounter <= 0)
@@ -99,5 +101,10 @@ public class BulletController : MonoBehaviour
             
             _bulletBounceCounter--;
         }
+    }
+
+    private void OnDisable()
+    {
+        OnDisableBulletEvent?.Invoke();
     }
 }

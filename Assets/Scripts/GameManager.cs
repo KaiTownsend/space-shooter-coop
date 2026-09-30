@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateGameState()
     {
-        if (_playerController.health <= 0)
+        if (_playerController.Health <= 0)
         {
             PauseGame();
         }
