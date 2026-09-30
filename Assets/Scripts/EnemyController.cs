@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private ParticleSystem _deathParticles;
     private AudioManager _audioManager;
     private Transform _enemyContainer;
-    
+    public float maxHealth;
     private float _healthPoints = 100f;
 
     private void Start()
@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
             _deathParticles.transform.SetParent(_enemyContainer);
             _deathParticles.Play();
 
-            _healthPoints = 100f;
+            _healthPoints = maxHealth;
 
             gameObject.SetActive(false);
         }

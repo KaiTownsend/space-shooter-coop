@@ -23,7 +23,14 @@ public class BulletController : MonoBehaviour
 
     private void OnEnable()
     {
-        _uniqueBulletSpread = Random.Range(-bulletSpread, bulletSpread);
+        float effectiveBulletSpread = bulletSpread;
+
+        if (bulletSpread < 0)
+        {
+            effectiveBulletSpread = 0;
+        }
+
+        _uniqueBulletSpread = Random.Range(-effectiveBulletSpread, effectiveBulletSpread);
 
         _bulletBounceCounter = bulletBounces;
 
