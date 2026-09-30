@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: QuickShotData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradableData
   UpgradeName: Quick Shot
-  MovementSpeedToAdd: 1
+  MovementSpeedToAdd: 0
   MaxHealthToAdd: 0
-  MagSizeToAdd: 15
+  MagSizeToAdd: 5
   BulletSizeToAdd: 0
-  BulletSpreadToAdd: 1
+  BulletSpreadToAdd: 0
   BulletBouncesToAdd: 0
   ShootCooldownToAdd: -0.1

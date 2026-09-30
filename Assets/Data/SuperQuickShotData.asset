@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SuperQuickShotData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradableData
   UpgradeName: Super Quick Shot
-  MovementSpeedToAdd: 5
+  MovementSpeedToAdd: 1
   MaxHealthToAdd: 0
-  MagSizeToAdd: 50
+  MagSizeToAdd: 15
   BulletSizeToAdd: 0
-  BulletSpreadToAdd: 5
+  BulletSpreadToAdd: 1.5
   BulletBouncesToAdd: 0
-  ShootCooldownToAdd: -0.15
+  ShootCooldownToAdd: -0.2

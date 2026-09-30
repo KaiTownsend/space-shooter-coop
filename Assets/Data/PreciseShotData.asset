@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffbb57ca577a0154b9eed024494e16b3, type: 3}
-  m_Name: BouncyData
+  m_Name: PreciseShotData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradableData
-  UpgradeName: Bouncy
+  UpgradeName: Precise Shot
   MovementSpeedToAdd: 0
   MaxHealthToAdd: 0
   MagSizeToAdd: 5
   BulletSizeToAdd: 0
-  BulletSpreadToAdd: 3
-  BulletBouncesToAdd: 6
-  ShootCooldownToAdd: 0
+  BulletSpreadToAdd: -3
+  BulletBouncesToAdd: 0
+  ShootCooldownToAdd: 0.05

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradableData
   UpgradeName: Big Shot
   MovementSpeedToAdd: -2
-  MaxHealthToAdd: 0
-  MagSizeToAdd: 3
-  BulletSizeToAdd: 20
+  MaxHealthToAdd: 25
+  MagSizeToAdd: 0
+  BulletSizeToAdd: 4
   BulletSpreadToAdd: 0
   BulletBouncesToAdd: 0
   ShootCooldownToAdd: 0.2
