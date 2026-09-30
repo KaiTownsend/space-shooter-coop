@@ -1,6 +1,7 @@
 using TMPro;
 using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -25,19 +26,30 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _chosenUpgradeIndexes = new int[3];
-
-        _playerController.OnTakeDamageEvent += OnTakeDamageEventHandler;
-        _playerController.OnUpdateBulletCountEvent += OnUpdateBulletCountEventHandler;
     }
 
     private void Start()
     {
-        
+        StartCoroutine(WaitForPlayer());
+    }
+
+    private IEnumerator WaitForPlayer()
+    {
+        while (_playerController == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                _playerController = player.GetComponent<PlayerController>();
+            }
+            yield return null;
+        }
 
         UpdateHealthText(_playerController.MaxHealth);
+        _playerController.OnTakeDamageEvent += OnTakeDamageEventHandler;
+        _playerController.OnUpdateBulletCountEvent += OnUpdateBulletCountEventHandler;
     }
 
     private void OnTakeDamageEventHandler()

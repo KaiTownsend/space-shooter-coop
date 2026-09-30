@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,14 +22,6 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public bool isGamePaused;
     private PlayerController _playerController;
-    
-    
-
-    private void Awake()
-    {
-        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-    }
-    
 
     private void Start()
     {
@@ -69,6 +62,19 @@ public class GameManager : MonoBehaviour
             ResetAndPause();
             isGamePaused = true;
             _uiManager.EnableLevelUpScreen();
+        }
+    }
+
+    private IEnumerator WaitForPlayer()
+    {
+        while (_playerController == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                _playerController = player.GetComponent<PlayerController>();
+            }
+            yield return null;
         }
     }
 
