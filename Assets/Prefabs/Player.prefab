@@ -108,6 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c1913ccc9e59c43a6415bffd80a7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _playerUpgradableDataList:
   - {fileID: 11400000, guid: e8457aecb97cce4419c64d3e962024c2, type: 2}
   - {fileID: 11400000, guid: 56e21f6230815964e9a05d3ae09c715e, type: 2}

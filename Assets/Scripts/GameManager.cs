@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("Level Variables")]
     [SerializeField] private float _levelTimeInterval = 30f;
     [SerializeField] private int _levelsToWin = 20;
-    public int _currentLevel { get; private set; }
+    public int CurrentLevel { get; private set; }
     private float _gameTime;
     private float _levelTimer;
 
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 
         if (_levelTimer >= _levelTimeInterval)
         {
-            _currentLevel++;
+            CurrentLevel++;
             _enemyManager.updateCooldown -= 0.3f;
             _enemyManager.AddMaxHealth(50f);
             _levelTimer = 0;

@@ -1,6 +1,7 @@
 using UnityEngine;
+using Mirror;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : NetworkBehaviour
 {
     [SerializeField] private ParticleSystem _spawnParticles;
     [SerializeField] private ParticleSystem _deathParticles;

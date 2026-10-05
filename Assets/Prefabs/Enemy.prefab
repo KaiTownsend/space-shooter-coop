@@ -2333,6 +2333,8 @@ GameObject:
   - component: {fileID: 6050492268853687289}
   - component: {fileID: 1994742027628302781}
   - component: {fileID: -268839116798274355}
+  - component: {fileID: -1752958828698696830}
+  - component: {fileID: -3067146972549718787}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2429,6 +2431,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4c9cfdc98e92c4399cefb82c2c0bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _spawnParticles: {fileID: 6877371558953808062}
   _deathParticles: {fileID: 6945182640915990118}
   maxHealth: 100
@@ -2475,6 +2480,57 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12, y: 0.12, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1752958828698696830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6497348168935668700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkTransformUnreliable
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 2059120669905107837}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  useFixedUpdate: 0
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+--- !u!114 &-3067146972549718787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6497348168935668700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
+  sceneId: 0
+  _assetId: 769916114
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &7418960496652144002
 GameObject:
   m_ObjectHideFlags: 0

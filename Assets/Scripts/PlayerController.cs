@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     public event Action OnTakeDamageEvent;
     public event Action<int, int> OnUpdateBulletCountEvent;
@@ -41,37 +42,38 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _bulletList = new List<BulletController>();
-        _bulletContainer = Instantiate(_bulletContainerPrefab);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
+    }
 
-        CreateAndUpdateBullets();
+    public override void OnStartLocalPlayer()
+    {
+        
     }
 
     private void Start()
     {
+        // CmdCreateAndUpdateBullets();
+
         _clampMin = _enemySpawnTransform.position.x;
         _clampMax = -_enemySpawnTransform.position.x;
 
         Health = MaxHealth;
 
-        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
+        // OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
 
-        foreach (BulletController bullet in _bulletList)
-        {
-            bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
-        }
+        // foreach (BulletController bullet in _bulletList)
+        // {
+        //     bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
+        // }
     }
 
     private void Update()
     {
-        // _uiManager.UpdateMagText(_availableBulletCount, _bulletList.Count);
-
-        if (_gameManager.isGamePaused)
+        
+        if (_gameManager.isGamePaused || !isLocalPlayer)
         {
-
             return;
         }
 
@@ -129,7 +131,7 @@ public class PlayerController : MonoBehaviour
         _shootCooldown += playerUpgrade.ShootCooldownToAdd;
         _magSize += playerUpgrade.MagSizeToAdd;
 
-        CreateAndUpdateBullets();
+        // CmdCreateAndUpdateBullets();
     }
 
     private void UpdateShipState()
@@ -145,24 +147,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CreateAndUpdateBullets()
-    {
+    // [Command]
+    // private void CmdCreateAndUpdateBullets()
+    // {
+    //     Debug.Log("attempt to create bullets");
 
-        for (int i = 0; i < (_magSize - _bulletList.Count); i++)
-        {
-            BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer.transform);
-            _bulletList.Add(bulletController);
-        }
+    //     for (int i = 0; i < (_magSize - _bulletList.Count); i++)
+    //     {
+    //         BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer.transform);
+    //         _bulletList.Add(bulletController);
+    //         NetworkServer.Spawn(bulletController.gameObject);
+    //     }
 
-        foreach (BulletController bullet in _bulletList)
-        {
-            bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
-            bullet.bulletSpread =  _bulletSpread;
-            bullet.bulletBounces = _bulletBounces;
-        }
+    //     foreach (BulletController bullet in _bulletList)
+    //     {
+    //         bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
+    //         bullet.bulletSpread =  _bulletSpread;
+    //         bullet.bulletBounces = _bulletBounces;
+    //     }
 
-        RecountAvailableBullets();
-    }
+    //     RecountAvailableBullets();
+    // }
 
     private void Shoot()
     {

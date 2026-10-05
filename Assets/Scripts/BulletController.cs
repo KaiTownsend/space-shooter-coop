@@ -1,7 +1,8 @@
 using UnityEngine;
 using System;
+using Mirror;
 
-public class BulletController : MonoBehaviour
+public class BulletController : NetworkBehaviour
 {
     public event Action OnDisableBulletEvent;
 
