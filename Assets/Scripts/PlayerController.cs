@@ -32,10 +32,10 @@ public class PlayerController : NetworkBehaviour
     [HideInInspector] public float ReloadTimer;
     public float Health { get; private set; }
     private GameManager _gameManager;
+    private ServerManager _serverManager;
     private GameObject _bulletContainer;
     private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
-    private List<BulletController> _bulletList;
     private float _clampMin;
     private float _clampMax;
     private int _availableBulletCount = 0;
@@ -45,11 +45,7 @@ public class PlayerController : NetworkBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
-    }
-
-    public override void OnStartLocalPlayer()
-    {
-        
+        _serverManager = FindAnyObjectByType<ServerManager>();
     }
 
     private void Start()
@@ -61,12 +57,12 @@ public class PlayerController : NetworkBehaviour
 
         Health = MaxHealth;
 
-        // OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _serverManager.BulletList.Count);
 
-        // foreach (BulletController bullet in _bulletList)
-        // {
-        //     bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
-        // }
+        foreach (BulletController bullet in _serverManager.BulletList)
+        {
+            bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
+        }
     }
 
     private void Update()
@@ -92,7 +88,7 @@ public class PlayerController : NetworkBehaviour
     public void OnDisableBulletEventHandler()
     {
         RecountAvailableBullets();
-        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _serverManager.BulletList.Count);
     }
 
     public void TakeDamage(float damageAmt)
@@ -105,7 +101,7 @@ public class PlayerController : NetworkBehaviour
 
     public void ResetPlayerAndBullets()
     {
-        foreach (BulletController bullet in _bulletList)
+        foreach (BulletController bullet in _serverManager.BulletList)
         {
             if (bullet.gameObject.activeInHierarchy)
             {
@@ -152,14 +148,14 @@ public class PlayerController : NetworkBehaviour
     // {
     //     Debug.Log("attempt to create bullets");
 
-    //     for (int i = 0; i < (_magSize - _bulletList.Count); i++)
+    //     for (int i = 0; i < (_magSize - _serverManager.BulletList.Count); i++)
     //     {
     //         BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer.transform);
-    //         _bulletList.Add(bulletController);
+    //         _serverManager.BulletList.Add(bulletController);
     //         NetworkServer.Spawn(bulletController.gameObject);
     //     }
 
-    //     foreach (BulletController bullet in _bulletList)
+    //     foreach (BulletController bullet in _serverManager.BulletList)
     //     {
     //         bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
     //         bullet.bulletSpread =  _bulletSpread;
@@ -171,12 +167,12 @@ public class PlayerController : NetworkBehaviour
 
     private void Shoot()
     {
-        foreach (BulletController bullet in _bulletList)
+        foreach (BulletController bullet in _serverManager.BulletList)
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
                 bullet.gameObject.SetActive(true);
-                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _bulletList[0].transform.localScale.y / 80f, transform.position.z);
+                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _serverManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
                 break;
             }
         }
@@ -188,7 +184,7 @@ public class PlayerController : NetworkBehaviour
     {
         _availableBulletCount = 0;
 
-        foreach (var bullet in _bulletList) // can use var instead of BulletController etc. this is same as foreach under shoot method
+        foreach (var bullet in _serverManager.BulletList) // can use var instead of BulletController etc. this is same as foreach under shoot method
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
@@ -196,6 +192,6 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _bulletList.Count);
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _serverManager.BulletList.Count);
     }
 }
