@@ -80,7 +80,7 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.Space) && ReloadTimer >= _shootCooldown)
         {
-            Shoot();
+            CmdShoot();
             ReloadTimer = 0f;
         }
     }
@@ -165,13 +165,15 @@ public class PlayerController : NetworkBehaviour
     //     RecountAvailableBullets();
     // }
 
-    private void Shoot()
+    [Command]
+    private void CmdShoot()
     {
         foreach (BulletController bullet in _serverManager.BulletList)
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
                 bullet.gameObject.SetActive(true);
+
                 bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _serverManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
                 break;
             }
