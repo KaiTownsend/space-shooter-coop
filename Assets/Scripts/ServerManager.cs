@@ -1,10 +1,13 @@
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using System;
 
 public class ServerManager : NetworkManager
 {
-    
+    public event Action OnJoinedLobbyEvent;
+    public event Action<int> OnPlayerCountChangedEvent;
+
     [SerializeField] private Transform _bulletContainer;
     public List<BulletController> BulletList = new List<BulletController>();
     [SerializeField] private int _magSize = 1;
@@ -20,6 +23,25 @@ public class ServerManager : NetworkManager
     {
         prefabs = singleton.spawnPrefabs;
         _bulletPrefab = prefabs[0].GetComponent<BulletController>();
+    }
+
+    // We join in the Lobby, so don't call base (it would spawn the player).
+    // Mirror spawns it for us when the host switches to the Main scene.
+    public override void OnClientConnect()
+    {
+        OnJoinedLobbyEvent?.Invoke();
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+        OnPlayerCountChangedEvent?.Invoke(NetworkServer.connections.Count);
+    }
+
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerDisconnect(conn);
+        OnPlayerCountChangedEvent?.Invoke(NetworkServer.connections.Count);
     }
 
     private void CreateAndUpdateBullets()
