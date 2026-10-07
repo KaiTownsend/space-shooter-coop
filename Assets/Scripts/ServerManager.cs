@@ -22,6 +22,12 @@ public class ServerManager : NetworkManager
         _bulletPrefab = prefabs[0].GetComponent<BulletController>();
     }
 
+    // We join in the Lobby, so don't spawn the player yet.
+    // Mirror spawns it for us when the host switches to the Main scene.
+    public override void OnClientConnect()
+    {
+    }
+
     private void CreateAndUpdateBullets()
     {
         for (int i = 0; i < (_magSize - BulletList.Count); i++)
