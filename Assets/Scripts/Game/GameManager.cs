@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 
@@ -19,7 +18,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private float _levelTimeInterval = 30f;
     [SerializeField] private int _levelsToWin = 20;
 
-    [SyncVar] private int _currentLevel; // need a way to "get" this despite syncvar making me make this private.
+    [SyncVar] private int _currentLevel;
     [SyncVar] private float _gameTime;
     [SyncVar] private float _levelTimer;
     [SyncVar] private bool _isGamePaused;
