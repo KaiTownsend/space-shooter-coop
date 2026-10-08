@@ -25,7 +25,7 @@ public class GameManager : NetworkBehaviour
 
     public bool IsGamePaused => _isGamePaused;
 
-    private List<PlayerController> _playerList = new List<PlayerController>();
+    public List<PlayerController> _playerList = new List<PlayerController>();
 
     // BULLET VARS FROM DELETED SERVER MANAGER CS
     // [SerializeField] private Transform _bulletContainer;

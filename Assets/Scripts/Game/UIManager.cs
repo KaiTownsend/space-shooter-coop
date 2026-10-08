@@ -14,6 +14,7 @@ public class UIManager : NetworkBehaviour
     [SerializeField] private TMP_Text _timerText;
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _magText;
+    [SerializeField] private TMP_Text _serverLog;
 
     [Header("Upgrades")]
     [SerializeField] private Transform _upgradeContainer;
@@ -24,33 +25,35 @@ public class UIManager : NetworkBehaviour
 
     private PlayerController _playerController;
     private GameManager _gameManager;
+    private LobbyManager _lobbyManager;
 
     private void Awake()
     {
-        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        _serverLog.text += "\nui manager awake";
         _chosenUpgradeIndexes = new int[3];
     }
 
-    private void Start()
+    public override void OnStartServer()
     {
-        StartCoroutine(WaitForPlayer());
-    }
+        base.OnStartServer();
 
-    private IEnumerator WaitForPlayer()
-    {
-        while (_playerController == null)
-        {
-            GameObject player = GameObject.FindWithTag("Player");
-            if (player != null)
-            {
-                _playerController = player.GetComponent<PlayerController>();
-            }
-            yield return null;
-        }
+        // ONSTARTSERVER NOT BEING CALLED ON BUILD VERSION.
 
-        UpdateHealthText(_playerController.MaxHealth);
+        _serverLog.text += "\nbeginning of start server";
+
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+
+        _lobbyManager = FindAnyObjectByType<LobbyManager>();
+
+        _serverLog.text += $"\nis this null: {_lobbyManager == null}";
+        
+        _playerController = _lobbyManager.playerPrefab.GetComponent<PlayerController>();
+
+        UpdateHealthText(_playerController.MaxHealth); // works for host only right now
         _playerController.OnTakeDamageEvent += OnTakeDamageEventHandler;
         _playerController.OnUpdateBulletCountEvent += OnUpdateBulletCountEventHandler;
+        
+        
     }
 
     private void OnTakeDamageEventHandler()
