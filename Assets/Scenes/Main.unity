@@ -2143,7 +2143,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Game Paused
 
-    - Press P to Pause'
+    - Press O to Resume'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2264,6 +2264,7 @@ MonoBehaviour:
   _leftBorder: {fileID: 1299041857}
   _levelTimeInterval: 15
   _levelsToWin: 20
+  BulletList: []
 --- !u!4 &1862454817
 Transform:
   m_ObjectHideFlags: 0
