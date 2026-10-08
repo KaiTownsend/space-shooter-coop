@@ -62,7 +62,7 @@ public class GameManager : NetworkBehaviour
 
         if (_levelTimer >= _levelTimeInterval)
         {
-            
+            NextLevel();
         }
     }
 
@@ -76,7 +76,6 @@ public class GameManager : NetworkBehaviour
                 PauseGame();
             }
         }
-        
     }
 
     [Server]

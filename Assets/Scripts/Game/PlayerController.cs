@@ -145,6 +145,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             _spriteRenderer.sprite = _lowHPSprite;
+            _gameManager.UpdateGameState();
             Debug.Log("Game Over"); // replace with actual game over eventually or something.
         }
     }
