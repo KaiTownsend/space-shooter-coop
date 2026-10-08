@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : NetworkBehaviour
 {
     [SerializeField] private EnemyController _enemyPrefab;
     [SerializeField] private Transform _enemyContainer;
@@ -31,6 +32,11 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         CreateEnemies();
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
     }
 
     private void Update()

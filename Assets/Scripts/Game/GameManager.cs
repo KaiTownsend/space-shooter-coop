@@ -154,6 +154,14 @@ public class GameManager : NetworkBehaviour
         RpcEnableLevelUpScreen();
     }
 
+    private void SetupBorders()
+    {
+        _topBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
+        _bottomBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
+        _rightBorder.localPosition = new Vector3(_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
+        _leftBorder.localPosition = new Vector3(-_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
+    }
+
     [ClientRpc]
     private void RpcEnableLevelUpScreen()
     {
@@ -164,14 +172,6 @@ public class GameManager : NetworkBehaviour
     private void RpcUpdateGameStatusText(bool isPaused) // for some reason this only synced up properly when I literally passed in isPaused instead of just using _isGamePaused like before.
     {
         _uiManager.UpdateGameStatusText(isPaused);
-    }
-
-    private void SetupBorders()
-    {
-        _topBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
-        _bottomBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
-        _rightBorder.localPosition = new Vector3(_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
-        _leftBorder.localPosition = new Vector3(-_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
     }
 
     // DYSFUNCTIONAL BULLET LOGIC FROM DELETED SERVER MANAGER CS
