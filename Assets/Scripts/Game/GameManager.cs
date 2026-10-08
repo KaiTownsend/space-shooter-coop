@@ -45,25 +45,25 @@ public class GameManager : NetworkBehaviour
 
     private void Update()
     {
-        //if and else if to be deleted once I have a button setup for a menu or such.
-        // if (Input.GetKeyDown(KeyCode.P))
-        // {
-        //     PauseGame();
-        // }
-        // else if (Input.GetKeyDown(KeyCode.O))
-        // {
-        //     ResumeGame();
-        // }
-        // else if (Input.GetKeyDown(KeyCode.R))
-        // {
-        //     ResetAndPause();
-        // }
-
         _uiManager.UpdateTimerText(_gameTime);
 
         if (!isServer) return; // cant just make the whole update server because UI needs to update on client before
 
-        Debug.Log("Player count" + _playerList.Count);
+        if (isClient)
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                PauseGame();
+            }
+            else if (Input.GetKeyDown(KeyCode.O))
+            {
+                ResumeGame();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                ResetAndPause();
+            }
+        }
 
         if (_isGamePaused) return;
 
@@ -74,6 +74,8 @@ public class GameManager : NetworkBehaviour
         {
             NextLevel();
         }
+
+        
     }
 
     [Server]
