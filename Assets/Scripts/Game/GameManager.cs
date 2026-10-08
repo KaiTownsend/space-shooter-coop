@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     [Header("Main")]
     [SerializeField] private EnemyManager _enemyManager;
@@ -26,7 +27,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetupBorders();
-        isGamePaused = true;
     }
 
     private void Update()
