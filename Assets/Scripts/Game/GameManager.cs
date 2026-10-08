@@ -30,7 +30,7 @@ public class GameManager : NetworkBehaviour
 
     // BULLET VARS FROM DELETED SERVER MANAGER CS
     // [SerializeField] private Transform _bulletContainer;
-    // public List<BulletController> BulletList = new List<BulletController>();
+    public List<BulletController> BulletList = new List<BulletController>(); // leaving uncommented so can compile. playercontroller references numerous times
     // PLAN TO TURN THESE INTO LISTS/DICT FOR EACH PLAYER (?)
     // [SerializeField] private int _magSize = 1;
     // [SerializeField] private float _bulletSize = 3f;

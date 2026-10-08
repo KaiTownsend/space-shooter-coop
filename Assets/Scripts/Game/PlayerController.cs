@@ -32,7 +32,6 @@ public class PlayerController : NetworkBehaviour
     [HideInInspector] public float ReloadTimer;
     public float Health { get; private set; }
     private GameManager _gameManager;
-    private ServerManager _serverManager;
     private GameObject _bulletContainer;
     private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
@@ -45,7 +44,6 @@ public class PlayerController : NetworkBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
-        _serverManager = FindAnyObjectByType<ServerManager>();
     }
 
     private void Start()
@@ -57,9 +55,9 @@ public class PlayerController : NetworkBehaviour
 
         Health = MaxHealth;
 
-        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _serverManager.BulletList.Count);
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _gameManager.BulletList.Count);
 
-        foreach (BulletController bullet in _serverManager.BulletList)
+        foreach (BulletController bullet in _gameManager.BulletList)
         {
             bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
         }
@@ -94,9 +92,10 @@ public class PlayerController : NetworkBehaviour
     public void OnDisableBulletEventHandler()
     {
         RecountAvailableBullets();
-        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _serverManager.BulletList.Count);
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _gameManager.BulletList.Count);
     }
 
+    // considering adding [Server] to this and see if that fixes updategamestate not working properly
     public void TakeDamage(float damageAmt)
     {
         Health -= damageAmt;
@@ -107,7 +106,7 @@ public class PlayerController : NetworkBehaviour
 
     public void ResetPlayerAndBullets()
     {
-        foreach (BulletController bullet in _serverManager.BulletList)
+        foreach (BulletController bullet in _gameManager.BulletList)
         {
             if (bullet.gameObject.activeInHierarchy)
             {
@@ -175,13 +174,13 @@ public class PlayerController : NetworkBehaviour
     [Command]
     private void CmdShoot()
     {
-        foreach (BulletController bullet in _serverManager.BulletList)
+        foreach (BulletController bullet in _gameManager.BulletList)
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
                 bullet.gameObject.SetActive(true);
 
-                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _serverManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
+                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _gameManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
                 break;
             }
         }
@@ -193,7 +192,7 @@ public class PlayerController : NetworkBehaviour
     {
         _availableBulletCount = 0;
 
-        foreach (var bullet in _serverManager.BulletList) // can use var instead of BulletController etc. this is same as foreach under shoot method
+        foreach (var bullet in _gameManager.BulletList) // can use var instead of BulletController etc. this is same as foreach under shoot method
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
@@ -201,6 +200,6 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _serverManager.BulletList.Count);
+        OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _gameManager.BulletList.Count);
     }
 }
