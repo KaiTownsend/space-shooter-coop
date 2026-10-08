@@ -28,6 +28,17 @@ public class GameManager : NetworkBehaviour
 
     private List<PlayerController> _playerList = new List<PlayerController>();
 
+    // BULLET VARS FROM DELETED SERVER MANAGER CS
+    // [SerializeField] private Transform _bulletContainer;
+    // public List<BulletController> BulletList = new List<BulletController>();
+    // PLAN TO TURN THESE INTO LISTS/DICT FOR EACH PLAYER (?)
+    // [SerializeField] private int _magSize = 1;
+    // [SerializeField] private float _bulletSize = 3f;
+    // [SerializeField] private float _bulletSpread = 0f;
+    // [SerializeField] private int _bulletBounces = 0;
+    // [SerializeField] private float _shootCooldown = 0.25f;
+    // [SerializeField] private BulletController _bulletPrefab;
+
     private void Start()
     {
         SetupBorders();
@@ -161,4 +172,25 @@ public class GameManager : NetworkBehaviour
         _rightBorder.localPosition = new Vector3(_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
         _leftBorder.localPosition = new Vector3(-_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
     }
+
+    // DYSFUNCTIONAL BULLET LOGIC FROM DELETED SERVER MANAGER CS
+    // private void CreateAndUpdateBullets()
+    // {
+    //     for (int i = 0; i < (_magSize - BulletList.Count); i++)
+    //     {
+    //         BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer);
+    //         BulletList.Add(bulletController);
+    //         NetworkServer.Spawn(bulletController.gameObject);
+    //         bulletController.gameObject.SetActive(false);
+    //     }
+
+    //     foreach (BulletController bullet in BulletList)
+    //     {
+    //         bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
+    //         bullet.bulletSpread =  _bulletSpread;
+    //         bullet.bulletBounces = _bulletBounces;
+    //     }
+
+    //     // RecountAvailableBullets();
+    // }
 }
