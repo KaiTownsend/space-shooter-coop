@@ -65,10 +65,16 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        _gameManager.AddPlayerToList(gameObject.GetComponent<PlayerController>());
+    }
+
     private void Update()
     {
         
-        if (_gameManager.isGamePaused || !isLocalPlayer)
+        if (_gameManager.IsGamePaused || !isLocalPlayer)
         {
             return;
         }

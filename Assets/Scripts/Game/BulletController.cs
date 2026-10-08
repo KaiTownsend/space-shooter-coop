@@ -44,7 +44,7 @@ public class BulletController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (_gameManager.isGamePaused)
+        if (_gameManager.IsGamePaused)
         {
             return;
         }

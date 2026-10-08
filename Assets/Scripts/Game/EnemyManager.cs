@@ -35,7 +35,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        if (_gameManager.isGamePaused)
+        if (_gameManager.IsGamePaused)
         {
             return;
         }
