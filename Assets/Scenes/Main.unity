@@ -1645,6 +1645,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _gameManager: {fileID: 1862454816}
   _gameStatusText: {fileID: 1839295152}
   _timerText: {fileID: 396291118}
   _healthText: {fileID: 2124749733}

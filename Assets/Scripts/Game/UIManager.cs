@@ -9,6 +9,8 @@ using Mirror;
 
 public class UIManager : NetworkBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
+
     [Header("TextMeshPro")]
     [SerializeField] private TMP_Text _gameStatusText;
     [SerializeField] private TMP_Text _timerText;
@@ -24,20 +26,12 @@ public class UIManager : NetworkBehaviour
     private int[] _chosenUpgradeIndexes;
 
     private PlayerController _playerController;
-    private GameManager _gameManager;
     private LobbyManager _lobbyManager;
 
     private void Awake()
     {
         _serverLog.text += "\nui manager awake";
         _chosenUpgradeIndexes = new int[3];
-    }
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-
-        _gameManager = FindAnyObjectByType<GameManager>();
     }
 
     public void AddLocalPlayer(PlayerController playerToAdd)
@@ -123,7 +117,7 @@ public class UIManager : NetworkBehaviour
     }
 
     private static readonly System.Random _random = new System.Random();
-    public static List<int> GetUniqueRandomNumbersShuffle(int min, int max, int count) // come back and try to understand this later !!!!
+    public static List<int> GetUniqueRandomNumbersShuffle(int min, int max, int count) // vibe coded slop
     {
         int rangeSize = max - min + 1;
         if (count > rangeSize)

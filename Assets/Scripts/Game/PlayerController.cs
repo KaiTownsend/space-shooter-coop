@@ -43,7 +43,6 @@ public class PlayerController : NetworkBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
     }
 
@@ -73,9 +72,18 @@ public class PlayerController : NetworkBehaviour
         _uiManager.AddLocalPlayer(this);
     }
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        _gameManager = FindAnyObjectByType<GameManager>(); //initialize ref for each client
+    }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        _gameManager = FindAnyObjectByType<GameManager>(); // initialize reference for the server
         _gameManager.AddPlayerToList(this);
     }
 
