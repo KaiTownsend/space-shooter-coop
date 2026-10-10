@@ -33,27 +33,19 @@ public class UIManager : NetworkBehaviour
         _chosenUpgradeIndexes = new int[3];
     }
 
-    public override void OnStartServer()
+    public override void OnStartClient()
     {
-        base.OnStartServer();
+        base.OnStartClient();
 
-        // ONSTARTSERVER NOT BEING CALLED ON BUILD VERSION.
+        _gameManager = FindAnyObjectByType<GameManager>();
+    }
 
-        _serverLog.text += "\nbeginning of start server";
-
-        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-
-        _lobbyManager = FindAnyObjectByType<LobbyManager>();
-
-        _serverLog.text += $"\nis this null: {_lobbyManager == null}";
-        
-        _playerController = _lobbyManager.playerPrefab.GetComponent<PlayerController>();
-
-        UpdateHealthText(_playerController.MaxHealth); // works for host only right now
+    public void AddLocalPlayer(PlayerController playerToAdd)
+    {
+        _playerController = playerToAdd;
+        UpdateHealthText(_playerController.MaxHealth);
         _playerController.OnTakeDamageEvent += OnTakeDamageEventHandler;
         _playerController.OnUpdateBulletCountEvent += OnUpdateBulletCountEventHandler;
-        
-        
     }
 
     private void OnTakeDamageEventHandler()

@@ -32,6 +32,7 @@ public class PlayerController : NetworkBehaviour
     [HideInInspector] public float ReloadTimer;
     public float Health { get; private set; }
     private GameManager _gameManager;
+    private UIManager _uiManager;
     private GameObject _bulletContainer;
     private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
@@ -63,10 +64,19 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+
+        _uiManager = FindAnyObjectByType<UIManager>();
+
+        _uiManager.AddLocalPlayer(this);
+    }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
-        _gameManager.AddPlayerToList(gameObject.GetComponent<PlayerController>());
+        _gameManager.AddPlayerToList(this);
     }
 
     private void Update()
