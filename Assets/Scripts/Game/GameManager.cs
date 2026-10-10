@@ -132,7 +132,6 @@ public class GameManager : NetworkBehaviour
         foreach (PlayerController player in _playerList)
         {
             player.ResetPlayerAndBullets();
-            player.ReloadTimer = 0f;
         }
         
         _enemyManager.ResetEnemies();

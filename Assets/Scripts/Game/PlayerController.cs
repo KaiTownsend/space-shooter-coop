@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Mirror;
+using TMPro;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -37,12 +37,15 @@ public class PlayerController : NetworkBehaviour
     private GameObject _bulletContainer;
     private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
+    private TMP_Text _serverLog;
+    private Vector3 _startPos;
     private float _clampMin;
     private float _clampMax;
     private int _availableBulletCount = 0;
 
     private void Awake()
     {
+        _serverLog = GameObject.Find("ServerLog").GetComponent<TMP_Text>();
         _playerStats = GetComponent<PlayerStats>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
@@ -72,6 +75,8 @@ public class PlayerController : NetworkBehaviour
         _uiManager = FindAnyObjectByType<UIManager>();
 
         _uiManager.AddLocalPlayer(this);
+
+        _startPos = transform.position;
     }
 
     public override void OnStartClient()
@@ -134,9 +139,17 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        transform.position = new Vector3 (0, -0.8f, 0);
+        TargetResetPlayer();
 
         RecountAvailableBullets();
+    }
+
+    [TargetRpc]
+    public void TargetResetPlayer()
+    {
+        _serverLog.text += "\npos reset";
+        ReloadTimer = 0f;
+        transform.position = _startPos;
     }
 
     [Command]
