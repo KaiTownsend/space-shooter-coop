@@ -24,13 +24,10 @@ public class UIManager : NetworkBehaviour
     [SerializeField] private Button[] _upgradeButtons;
     
     private int[] _chosenUpgradeIndexes;
-
     private PlayerController _playerController;
-    private LobbyManager _lobbyManager;
 
     private void Awake()
     {
-        _serverLog.text += "\nui manager awake";
         _chosenUpgradeIndexes = new int[3];
     }
 
