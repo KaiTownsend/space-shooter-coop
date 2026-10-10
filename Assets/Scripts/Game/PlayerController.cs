@@ -18,21 +18,22 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private Sprite _mediumHPSprite;
     [SerializeField] private Sprite _lowHPSprite;
 
-    [Header("General Stats")]
-    [SerializeField] private float _movementSpeed = 5f;
-    public float MaxHealth = 100f;
+    // [Header("General Stats")]
+    // [SerializeField] private float _movementSpeed = 5f;
+    // public float MaxHealth = 100f;
 
-    [Header("Gun/Bullet Stats")]
-    [SerializeField] private int _magSize = 1;
-    [SerializeField] private float _bulletSize = 3f;
-    [SerializeField] private float _bulletSpread = 0f;
-    [SerializeField] private int _bulletBounces = 0;
-    [SerializeField] private float _shootCooldown = 0.25f;
+    // [Header("Gun/Bullet Stats")]
+    // [SerializeField] private int _magSize = 1;
+    // [SerializeField] private float _bulletSize = 3f;
+    // [SerializeField] private float _bulletSpread = 0f;
+    // [SerializeField] private int _bulletBounces = 0;
+    // [SerializeField] private float _shootCooldown = 0.25f;
 
     [HideInInspector] public float ReloadTimer;
     public float Health { get; private set; }
     private GameManager _gameManager;
     private UIManager _uiManager;
+    private PlayerStats _playerStats;
     private GameObject _bulletContainer;
     private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
@@ -42,6 +43,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
+        _playerStats = GetComponent<PlayerStats>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _enemySpawnTransform = GameObject.Find("EnemySpawn").transform;
     }
@@ -53,7 +55,7 @@ public class PlayerController : NetworkBehaviour
         _clampMin = _enemySpawnTransform.position.x;
         _clampMax = -_enemySpawnTransform.position.x;
 
-        Health = MaxHealth;
+        Health = _playerStats.MaxHealth;
 
         OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _gameManager.BulletList.Count);
 
@@ -96,11 +98,11 @@ public class PlayerController : NetworkBehaviour
         }
 
         float inputDirection = Input.GetAxisRaw("Horizontal");
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x + _movementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x + _playerStats.MovementSpeed * Time.deltaTime * inputDirection, _clampMin, _clampMax), transform.position.y, transform.position.z);
 
         ReloadTimer += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && ReloadTimer >= _shootCooldown)
+        if (Input.GetKey(KeyCode.Space) && ReloadTimer >= _playerStats.ShootCooldown)
         {
             CmdShoot();
             ReloadTimer = 0f;
@@ -137,28 +139,29 @@ public class PlayerController : NetworkBehaviour
         RecountAvailableBullets();
     }
 
-    public void ChangeStatsFromUpgrade(int upgradeIndex)
+    [Command]
+    public void CmdChangeStatsFromUpgrade(int upgradeIndex) // try seeing if it works without cmd or without syncvars. one or the other?
     {
         PlayerUpgradableData playerUpgrade = _playerUpgradableDataList[upgradeIndex];
 
-        _movementSpeed += playerUpgrade.MovementSpeedToAdd;
-        MaxHealth += playerUpgrade.MaxHealthToAdd;
+        _playerStats.MovementSpeed += playerUpgrade.MovementSpeedToAdd;
+        _playerStats.MaxHealth += playerUpgrade.MaxHealthToAdd;
         
-        _bulletSize += playerUpgrade.BulletSizeToAdd;
-        _bulletSpread += playerUpgrade.BulletSpreadToAdd;
-        _bulletBounces += playerUpgrade.BulletBouncesToAdd;
-        _shootCooldown += playerUpgrade.ShootCooldownToAdd;
-        _magSize += playerUpgrade.MagSizeToAdd;
+        _playerStats.BulletSize += playerUpgrade.BulletSizeToAdd;
+        _playerStats.BulletSpread += playerUpgrade.BulletSpreadToAdd;
+        _playerStats.BulletBounces += playerUpgrade.BulletBouncesToAdd;
+        _playerStats.ShootCooldown += playerUpgrade.ShootCooldownToAdd;
+        _playerStats.MagSize += playerUpgrade.MagSizeToAdd;
 
         // CmdCreateAndUpdateBullets();
     }
 
     private void UpdateShipState()
     {
-        if (Health > (0.80 * MaxHealth)) _spriteRenderer.sprite = _maxHPSprite;
-        else if (Health > (0.6 * MaxHealth)) _spriteRenderer.sprite = _highHPSprite;
-        else if (Health > (0.3 * MaxHealth)) _spriteRenderer.sprite = _mediumHPSprite;
-        else if (Health > (0 * MaxHealth)) _spriteRenderer.sprite = _lowHPSprite;
+        if (Health > (0.80 * _playerStats.MaxHealth)) _spriteRenderer.sprite = _maxHPSprite;
+        else if (Health > (0.6 * _playerStats.MaxHealth)) _spriteRenderer.sprite = _highHPSprite;
+        else if (Health > (0.3 * _playerStats.MaxHealth)) _spriteRenderer.sprite = _mediumHPSprite;
+        else if (Health > (0 * _playerStats.MaxHealth)) _spriteRenderer.sprite = _lowHPSprite;
         else
         {
             _spriteRenderer.sprite = _lowHPSprite;

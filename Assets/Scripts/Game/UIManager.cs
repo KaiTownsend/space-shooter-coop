@@ -34,14 +34,14 @@ public class UIManager : NetworkBehaviour
     public void AddLocalPlayer(PlayerController playerToAdd)
     {
         _playerController = playerToAdd;
-        UpdateHealthText(_playerController.MaxHealth);
+        UpdateHealthText(_playerController.GetComponent<PlayerStats>().MaxHealth);
         _playerController.OnTakeDamageEvent += OnTakeDamageEventHandler;
         _playerController.OnUpdateBulletCountEvent += OnUpdateBulletCountEventHandler;
     }
 
     private void OnTakeDamageEventHandler()
     {
-        UpdateHealthText(_playerController.MaxHealth);
+        UpdateHealthText(_playerController.GetComponent<PlayerStats>().MaxHealth);
     }
 
     private void OnUpdateBulletCountEventHandler(int availableBullets, int maxBullets)
@@ -99,7 +99,7 @@ public class UIManager : NetworkBehaviour
         }
 
 
-        _playerController.ChangeStatsFromUpgrade(upgradeIndex);
+        _playerController.CmdChangeStatsFromUpgrade(upgradeIndex);
         _gameManager.ResumeGame();
         _upgradeContainer.gameObject.SetActive(false);
     }

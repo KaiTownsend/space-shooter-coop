@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1116566428978950527}
   - component: {fileID: 3176408054924324606}
   - component: {fileID: 1641879305831750248}
+  - component: {fileID: 8913146494218639002}
   - component: {fileID: 2181686294987093704}
   - component: {fileID: 1837203245569077247}
   - component: {fileID: 4620682211606025238}
@@ -132,6 +133,18 @@ MonoBehaviour:
   _bulletBounces: 0
   _shootCooldown: 0.25
   ReloadTimer: 0
+--- !u!114 &8913146494218639002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9097456760906604129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1b9f2cf5fa12a45b0f07aa0f453160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
 --- !u!65 &2181686294987093704
 BoxCollider:
   m_ObjectHideFlags: 0
