@@ -11,7 +11,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private PlayerUpgradableData[] _playerUpgradableDataList;
     [SerializeField] private BulletController _bulletPrefab;
     [SerializeField] private GameObject _bulletContainerPrefab;
-    
+
     [Header("Ship Sprites")]
     [SerializeField] private Sprite _maxHPSprite;
     [SerializeField] private Sprite _highHPSprite;
@@ -21,6 +21,7 @@ public class PlayerController : NetworkBehaviour
     // [Header("General Stats")]
     // [SerializeField] private float _movementSpeed = 5f;
     // public float MaxHealth = 100f;
+
 
     // [Header("Gun/Bullet Stats")]
     // [SerializeField] private int _magSize = 1;
@@ -53,7 +54,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
-        // CmdCreateAndUpdateBullets();
+
+        // CmdCreateAndUpdateBullets();  
 
         _clampMin = _enemySpawnTransform.position.x;
         _clampMax = -_enemySpawnTransform.position.x;
@@ -96,7 +98,6 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        
         if (_gameManager.IsGamePaused || !isLocalPlayer)
         {
             return;
@@ -159,7 +160,7 @@ public class PlayerController : NetworkBehaviour
 
         _playerStats.MovementSpeed += playerUpgrade.MovementSpeedToAdd;
         _playerStats.MaxHealth += playerUpgrade.MaxHealthToAdd;
-        
+
         _playerStats.BulletSize += playerUpgrade.BulletSizeToAdd;
         _playerStats.BulletSpread += playerUpgrade.BulletSpreadToAdd;
         _playerStats.BulletBounces += playerUpgrade.BulletBouncesToAdd;
@@ -214,7 +215,7 @@ public class PlayerController : NetworkBehaviour
             {
                 bullet.gameObject.SetActive(true);
 
-                bullet.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.3f + _gameManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
+                bullet.transform.position = new Vector3(transform.position.x, transform.position.y + 0.3f + _gameManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
                 break;
             }
         }

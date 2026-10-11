@@ -7,7 +7,7 @@ public class GameManager : NetworkBehaviour
     [Header("Main")]
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private UIManager _uiManager;
-    
+
     [Header("Border Transforms")]
     [SerializeField] private Transform _topBorder;
     [SerializeField] private Transform _bottomBorder;
@@ -28,15 +28,8 @@ public class GameManager : NetworkBehaviour
     public List<PlayerController> _playerList = new List<PlayerController>();
 
     // BULLET VARS FROM DELETED SERVER MANAGER CS
-    // [SerializeField] private Transform _bulletContainer;
-    public List<BulletController> BulletList = new List<BulletController>(); // leaving uncommented so can compile. playercontroller references numerous times
-    // PLAN TO TURN THESE INTO LISTS/DICT FOR EACH PLAYER (?)
-    // [SerializeField] private int _magSize = 1;
-    // [SerializeField] private float _bulletSize = 3f;
-    // [SerializeField] private float _bulletSpread = 0f;
-    // [SerializeField] private int _bulletBounces = 0;
-    // [SerializeField] private float _shootCooldown = 0.25f;
-    // [SerializeField] private BulletController _bulletPrefab;
+    // 
+    public List<BulletController> BulletList = new List<BulletController>();
 
     private void Start()
     {
@@ -74,8 +67,6 @@ public class GameManager : NetworkBehaviour
         {
             NextLevel();
         }
-
-        
     }
 
     [Server]
@@ -123,7 +114,7 @@ public class GameManager : NetworkBehaviour
     //         yield return null;
     //     }
     // }
-    
+
     [Server]
     private void ResetAndPause()
     {
@@ -133,7 +124,7 @@ public class GameManager : NetworkBehaviour
         {
             player.ResetPlayerAndBullets();
         }
-        
+
         _enemyManager.ResetEnemies();
         _enemyManager.updateTimer = 0f;
     }
@@ -157,8 +148,8 @@ public class GameManager : NetworkBehaviour
     {
         _topBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
         _bottomBorder.localScale = new Vector3(_enemyManager.totalHorizDistance - _leftBorder.localScale.x, _topBorder.localScale.y);
-        _rightBorder.localPosition = new Vector3(_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
-        _leftBorder.localPosition = new Vector3(-_enemyManager.totalHorizDistance/2, _rightBorder.localPosition.y);
+        _rightBorder.localPosition = new Vector3(_enemyManager.totalHorizDistance / 2, _rightBorder.localPosition.y);
+        _leftBorder.localPosition = new Vector3(-_enemyManager.totalHorizDistance / 2, _rightBorder.localPosition.y);
     }
 
     [ClientRpc]
