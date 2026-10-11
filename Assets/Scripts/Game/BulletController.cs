@@ -1,23 +1,22 @@
 using UnityEngine;
-using System;
 using Mirror;
 
 public class BulletController : NetworkBehaviour
 {
-    public event Action OnDisableBulletEvent;
-
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _damage = 100f;
     [HideInInspector] public float bulletSpread = 0f;
     [HideInInspector] public int bulletBounces = 0;
+    public PlayerController BulletOwner;
     private GameManager _gameManager;
     private Rigidbody _rigidBody;
+    private BulletManager _bulletManager;
     private int _xDirection = 1;
     private int _yDirection = 1;
     private float _uniqueBulletSpread;
     private int _bulletBounceCounter;
 
-    
+
 
     private void Awake()
     {
@@ -70,7 +69,7 @@ public class BulletController : NetworkBehaviour
 
         if (_bulletBounceCounter <= 0)
         {
-            gameObject.SetActive(false);
+            DespawnBullet();
         }
         else
         {
@@ -97,15 +96,20 @@ public class BulletController : NetworkBehaviour
 
             if (collider.gameObject.GetComponent<PlayerController>() != null) // even if you still have bounces. if you catch the balls, they're essentially reloaded
             {
-                gameObject.SetActive(false);
+                DespawnBullet();
             }
-            
+
             _bulletBounceCounter--;
         }
     }
 
-    private void OnDisable()
+    public void SetManager(BulletManager bulletManager)
     {
-        OnDisableBulletEvent?.Invoke();
+        _bulletManager = bulletManager;
+    }
+
+    public void DespawnBullet()
+    {
+        _bulletManager.DisableBullet(this);
     }
 }

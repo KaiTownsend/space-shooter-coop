@@ -35,6 +35,7 @@ public class PlayerController : NetworkBehaviour
     private GameManager _gameManager;
     private UIManager _uiManager;
     private PlayerStats _playerStats;
+    private BulletManager _bulletManager;
     private GameObject _bulletContainer;
     private Transform _enemySpawnTransform;
     private SpriteRenderer _spriteRenderer;
@@ -63,11 +64,6 @@ public class PlayerController : NetworkBehaviour
         Health = _playerStats.MaxHealth;
 
         OnUpdateBulletCountEvent?.Invoke(_availableBulletCount, _gameManager.BulletList.Count);
-
-        foreach (BulletController bullet in _gameManager.BulletList)
-        {
-            bullet.OnDisableBulletEvent += OnDisableBulletEventHandler;
-        }
     }
 
     public override void OnStartLocalPlayer()
@@ -91,6 +87,8 @@ public class PlayerController : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        _bulletManager = FindAnyObjectByType<BulletManager>();
 
         _gameManager = FindAnyObjectByType<GameManager>(); // initialize reference for the server
         _gameManager.AddPlayerToList(this);
@@ -184,43 +182,22 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    // [Command]
-    // private void CmdCreateAndUpdateBullets()
-    // {
-    //     Debug.Log("attempt to create bullets");
-
-    //     for (int i = 0; i < (_magSize - _serverManager.BulletList.Count); i++)
-    //     {
-    //         BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer.transform);
-    //         _serverManager.BulletList.Add(bulletController);
-    //         NetworkServer.Spawn(bulletController.gameObject);
-    //     }
-
-    //     foreach (BulletController bullet in _serverManager.BulletList)
-    //     {
-    //         bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
-    //         bullet.bulletSpread =  _bulletSpread;
-    //         bullet.bulletBounces = _bulletBounces;
-    //     }
-
-    //     RecountAvailableBullets();
-    // }
-
     [Command]
     private void CmdShoot()
     {
-        foreach (BulletController bullet in _gameManager.BulletList)
-        {
-            if (!bullet.gameObject.activeInHierarchy)
-            {
-                bullet.gameObject.SetActive(true);
+        BulletController bullet = _bulletManager.GetUniqueBullet(this, _playerStats.MagSize);
 
-                bullet.transform.position = new Vector3(transform.position.x, transform.position.y + 0.3f + _gameManager.BulletList[0].transform.localScale.y / 80f, transform.position.z);
-                break;
-            }
-        }
+        if (bullet == null) return;
 
-        RecountAvailableBullets();
+        bullet.BulletOwner = this;
+        bullet.bulletSpread = _playerStats.BulletSpread;
+        bullet.bulletBounces = _playerStats.BulletBounces;
+        bullet.transform.position = new Vector3(transform.position.x, transform.position.y + 0.3f);
+        bullet.transform.localScale = new Vector3(_playerStats.BulletSize, _playerStats.BulletSize, _playerStats.BulletSize);
+
+        bullet.gameObject.SetActive(true);
+
+        // RecountAvailableBullets();
     }
 
     private void RecountAvailableBullets()
