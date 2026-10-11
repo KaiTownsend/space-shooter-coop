@@ -110,10 +110,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62475a97e4648e64985da79484727934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileController
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _speed: 3
   _damage: 100
   bulletSpread: 0.1
   bulletBounces: 0
+  BulletOwner: {fileID: 0}
 --- !u!54 &-7828346764345437998
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -288,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Mirror.Components::Mirror.NetworkTransformUnreliable
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 4714179712753765991}
