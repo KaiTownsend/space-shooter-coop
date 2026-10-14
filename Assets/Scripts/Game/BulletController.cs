@@ -43,10 +43,9 @@ public class BulletController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (_gameManager.IsGamePaused)
-        {
-            return;
-        }
+        if (!isServer) return;
+
+        if (_gameManager.IsGamePaused) return;
 
         Vector3 spreadDirection = new Vector3(_uniqueBulletSpread * _xDirection, _yDirection);
         Vector3 newPosition = _rigidBody.position + spreadDirection.normalized * _speed * Time.fixedDeltaTime;
@@ -55,6 +54,8 @@ public class BulletController : NetworkBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
+        if (!isServer) return;
+
         if (collider.tag == "Bullet")
         {
             return;

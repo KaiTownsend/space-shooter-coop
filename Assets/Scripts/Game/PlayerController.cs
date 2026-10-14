@@ -197,7 +197,7 @@ public class PlayerController : NetworkBehaviour
 
         bullet.gameObject.SetActive(true);
 
-        // RecountAvailableBullets();
+        NetworkServer.Spawn(bullet.gameObject);
     }
 
     private void RecountAvailableBullets()
