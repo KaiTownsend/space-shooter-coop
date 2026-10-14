@@ -14,6 +14,7 @@ public class UIManager : NetworkBehaviour
     [Header("TextMeshPro")]
     [SerializeField] private TMP_Text _gameStatusText;
     [SerializeField] private TMP_Text _timerText;
+    [SerializeField] private TMP_Text _countdownText;
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _magText;
     [SerializeField] private TMP_Text _serverLog;
@@ -29,11 +30,6 @@ public class UIManager : NetworkBehaviour
     private void Awake()
     {
         _chosenUpgradeIndexes = new int[3];
-    }
-
-    private void Start()
-    {
-        UpdateGameStatusText(_gameManager.IsGamePaused);
     }
 
     public void AddLocalPlayer(PlayerController playerToAdd)
@@ -60,6 +56,19 @@ public class UIManager : NetworkBehaviour
         float seconds = (int)currentTime % 60;
 
         _timerText.text = $"{minutes}m {seconds}s";
+    }
+
+    public void UpdateCountdownText(float currentCountdown)
+    {
+        if (currentCountdown > 0)
+        {
+            _countdownText.text = $"{currentCountdown.ToString("F1")}s until game start";
+        }
+        else
+        {
+            _countdownText.gameObject.SetActive(false);
+        }
+
     }
 
     public void UpdateHealthText(float maxHealth)
@@ -102,7 +111,6 @@ public class UIManager : NetworkBehaviour
                 break;
             }
         }
-
 
         _playerController.CmdChangeStatsFromUpgrade(upgradeIndex);
         _gameManager.ResumeGame();

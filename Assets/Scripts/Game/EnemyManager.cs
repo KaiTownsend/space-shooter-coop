@@ -4,8 +4,8 @@ using Mirror;
 
 public class EnemyManager : NetworkBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private EnemyController _enemyPrefab;
-    [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _enemySpawnTransform;
     [SerializeField] private AudioManager _audioManager;
 
@@ -17,13 +17,12 @@ public class EnemyManager : NetworkBehaviour
 
     [HideInInspector] public float totalHorizDistance;
     [HideInInspector] public float updateTimer;
-    private GameManager _gameManager;
+
     private EnemyController[] _enemyList;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
 
     private void Awake()
     {
-        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         _enemyList = new EnemyController[_colSize * _rowSize];
         _enemySpawnTransform.transform.position = new Vector3(_offsetDist / 2f * (-_rowSize + 1f), 2.85f, 0f);
         totalHorizDistance = Mathf.Abs(2 * (_enemySpawnTransform.transform.position.x - _offsetDist));
@@ -64,8 +63,6 @@ public class EnemyManager : NetworkBehaviour
             }
 
             enemy.transform.position = GetSpawnPosition(i / _rowSize, i % _rowSize);
-
-
         }
     }
 
@@ -82,7 +79,7 @@ public class EnemyManager : NetworkBehaviour
     {
         for (int i = 0; i < _enemyList.Length; i++)
         {
-            EnemyController enemy = Instantiate(_enemyPrefab, _enemyContainer);
+            EnemyController enemy = Instantiate(_enemyPrefab);
             _enemyList[i] = enemy;
 
             enemy.SetAudioManager(_audioManager);

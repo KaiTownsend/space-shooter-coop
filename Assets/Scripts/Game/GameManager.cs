@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 
@@ -17,19 +18,22 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private Transform _rightBorder;
     [SerializeField] private Transform _leftBorder;
 
-    [Header("Level Variables")]
+    [Header("Time/Level Variables")]
     [SerializeField] private float _levelTimeInterval = 30f;
     [SerializeField] private int _levelsToWin = 20;
 
     [SyncVar] private int _currentLevel;
     [SyncVar] private float _gameTime;
     [SyncVar] private float _levelTimer;
-    [SyncVar] private bool _isGamePaused;
+    [SyncVar] private bool _isGamePaused = true;
     public bool IsGamePaused => _isGamePaused;
+
+    [SyncVar] private float _countdownTimer = 3f;
 
     private void Start()
     {
         SetupBorders();
+        StartCoroutine(WaitForCountdown());
     }
 
     private void Update()
@@ -48,10 +52,6 @@ public class GameManager : NetworkBehaviour
             {
                 ResumeGame();
             }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                ResetAndPause();
-            }
         }
 
         if (_isGamePaused) return;
@@ -63,6 +63,20 @@ public class GameManager : NetworkBehaviour
         {
             NextLevel();
         }
+    }
+
+    private IEnumerator WaitForCountdown()
+    {
+        while (_countdownTimer > 0)
+        {
+            _countdownTimer -= Time.deltaTime;
+            _uiManager.UpdateCountdownText(_countdownTimer);
+            yield return null;
+        }
+
+        _isGamePaused = false;
+        _uiManager.UpdateCountdownText(_countdownTimer);
+        _uiManager.UpdateGameStatusText(_isGamePaused);
     }
 
     [Server]
@@ -97,19 +111,6 @@ public class GameManager : NetworkBehaviour
         _isGamePaused = false;
         RpcUpdateGameStatusText(false);
     }
-
-    // private IEnumerator WaitForPlayer()
-    // {
-    //     while (_playerController == null)
-    //     {
-    //         GameObject player = GameObject.FindWithTag("Player");
-    //         if (player != null)
-    //         {
-    //             _playerController = player.GetComponent<PlayerController>();
-    //         }
-    //         yield return null;
-    //     }
-    // }
 
     [Server]
     private void ResetAndPause()
@@ -159,25 +160,4 @@ public class GameManager : NetworkBehaviour
     {
         _uiManager.UpdateGameStatusText(isPaused);
     }
-
-    // DYSFUNCTIONAL BULLET LOGIC FROM DELETED SERVER MANAGER CS
-    // private void CreateAndUpdateBullets()
-    // {
-    //     for (int i = 0; i < (_magSize - BulletList.Count); i++)
-    //     {
-    //         BulletController bulletController = Instantiate(_bulletPrefab, _bulletContainer);
-    //         BulletList.Add(bulletController);
-    //         NetworkServer.Spawn(bulletController.gameObject);
-    //         bulletController.gameObject.SetActive(false);
-    //     }
-
-    //     foreach (BulletController bullet in BulletList)
-    //     {
-    //         bullet.transform.localScale = new Vector3(_bulletSize, _bulletSize, _bulletSize);
-    //         bullet.bulletSpread =  _bulletSpread;
-    //         bullet.bulletBounces = _bulletBounces;
-    //     }
-
-    //     // RecountAvailableBullets();
-    // }
 }
