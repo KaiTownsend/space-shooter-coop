@@ -125,13 +125,6 @@ MonoBehaviour:
   _highHPSprite: {fileID: -4835859195297287297, guid: e69baf2273b8195469d752e116c1ac3a, type: 3}
   _mediumHPSprite: {fileID: 5091398421201204211, guid: e88de61840c8fb34eb83de859dd33570, type: 3}
   _lowHPSprite: {fileID: 6372854951805474705, guid: bfb0dbfc341dff84e8a1276fa3d06cf2, type: 3}
-  _movementSpeed: 5
-  MaxHealth: 100
-  _magSize: 1
-  _bulletSize: 3
-  _bulletSpread: 0
-  _bulletBounces: 0
-  _shootCooldown: 0.25
   ReloadTimer: 0
 --- !u!114 &8913146494218639002
 MonoBehaviour:
@@ -145,6 +138,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1b9f2cf5fa12a45b0f07aa0f453160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  MovementSpeed: 5
+  MaxHealth: 100
+  MagSize: 1
+  BulletSize: 3
+  BulletSpread: 0
+  BulletBounces: 0
+  ShootCooldown: 0.25
 --- !u!65 &2181686294987093704
 BoxCollider:
   m_ObjectHideFlags: 0

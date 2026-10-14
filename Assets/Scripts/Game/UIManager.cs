@@ -22,13 +22,18 @@ public class UIManager : NetworkBehaviour
     [SerializeField] private Transform _upgradeContainer;
     [SerializeField] private PlayerUpgradableData[] _playerUpgradableData;
     [SerializeField] private Button[] _upgradeButtons;
-    
+
     private int[] _chosenUpgradeIndexes;
     private PlayerController _playerController;
 
     private void Awake()
     {
         _chosenUpgradeIndexes = new int[3];
+    }
+
+    private void Start()
+    {
+        UpdateGameStatusText(_gameManager.IsGamePaused);
     }
 
     public void AddLocalPlayer(PlayerController playerToAdd)
@@ -51,8 +56,8 @@ public class UIManager : NetworkBehaviour
 
     public void UpdateTimerText(float currentTime)
     {
-        float minutes = (int)currentTime/60;
-        float seconds = (int)currentTime%60;
+        float minutes = (int)currentTime / 60;
+        float seconds = (int)currentTime % 60;
 
         _timerText.text = $"{minutes}m {seconds}s";
     }
@@ -105,8 +110,8 @@ public class UIManager : NetworkBehaviour
     }
 
     private void SelectRandomUpgrades()
-    {   
-        _chosenUpgradeIndexes = GetUniqueRandomNumbersShuffle(0, _playerUpgradableData.Length-1, _playerUpgradableData.Length).ToArray();
+    {
+        _chosenUpgradeIndexes = GetUniqueRandomNumbersShuffle(0, _playerUpgradableData.Length - 1, _playerUpgradableData.Length).ToArray();
         for (int i = 0; i < 3; i++)
         {
             _upgradeButtons[i].GetComponentInChildren<TMP_Text>().text = _playerUpgradableData[_chosenUpgradeIndexes[i]].UpgradeName;
