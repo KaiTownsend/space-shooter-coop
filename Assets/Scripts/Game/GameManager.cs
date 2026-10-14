@@ -4,6 +4,9 @@ using Mirror;
 
 public class GameManager : NetworkBehaviour
 {
+    [HideInInspector] public List<PlayerController> PlayerList = new List<PlayerController>();
+    [HideInInspector] public List<BulletController> BulletList = new List<BulletController>();
+
     [Header("Main")]
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private UIManager _uiManager;
@@ -22,14 +25,7 @@ public class GameManager : NetworkBehaviour
     [SyncVar] private float _gameTime;
     [SyncVar] private float _levelTimer;
     [SyncVar] private bool _isGamePaused;
-
     public bool IsGamePaused => _isGamePaused;
-
-    public List<PlayerController> _playerList = new List<PlayerController>();
-
-    // BULLET VARS FROM DELETED SERVER MANAGER CS
-    // 
-    public List<BulletController> BulletList = new List<BulletController>();
 
     private void Start()
     {
@@ -72,7 +68,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void UpdateGameState()
     {
-        foreach (PlayerController player in _playerList)
+        foreach (PlayerController player in PlayerList)
         {
             if (player.Health <= 0)
             {
@@ -84,7 +80,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void AddPlayerToList(PlayerController playerToAdd)
     {
-        _playerList.Add(playerToAdd);
+        PlayerList.Add(playerToAdd);
     }
 
     [Server]
@@ -120,7 +116,7 @@ public class GameManager : NetworkBehaviour
     {
         PauseGame();
 
-        foreach (PlayerController player in _playerList)
+        foreach (PlayerController player in PlayerList)
         {
             player.ResetPlayerAndBullets();
         }
