@@ -57,10 +57,15 @@ public class EnemyManager : NetworkBehaviour
         {
             EnemyController enemy = _enemyList[i];
 
-            enemy.gameObject.SetActive(true);
+            if (!enemy.gameObject.activeInHierarchy)
+            {
+                enemy.gameObject.SetActive(true);
+                NetworkServer.Spawn(enemy.gameObject);
+            }
+
             enemy.transform.position = GetSpawnPosition(i / _rowSize, i % _rowSize);
 
-            NetworkServer.Spawn(enemy.gameObject);
+
         }
     }
 
