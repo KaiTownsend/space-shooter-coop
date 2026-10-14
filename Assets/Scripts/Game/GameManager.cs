@@ -21,7 +21,7 @@ public class GameManager : NetworkBehaviour
     [SyncVar] private int _currentLevel;
     [SyncVar] private float _gameTime;
     [SyncVar] private float _levelTimer;
-    [SyncVar] private bool _isGamePaused = true;
+    [SyncVar] private bool _isGamePaused;
 
     public bool IsGamePaused => _isGamePaused;
 

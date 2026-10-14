@@ -14,37 +14,32 @@ public class EnemyManager : NetworkBehaviour
     [SerializeField] private float _movementDist = 0.25f;
     [SerializeField] private int _rowSize = 10;
     [SerializeField] private int _colSize = 8;
-    
+
     [HideInInspector] public float totalHorizDistance;
     [HideInInspector] public float updateTimer;
     private GameManager _gameManager;
     private EnemyController[] _enemyList;
     private float _offsetDist = 0.25f; // this is also the dist from enemy spawn to center of L/R border
-    
+
     private void Awake()
     {
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        _enemyList = new EnemyController[_colSize*_rowSize];
-        _enemySpawnTransform.transform.position = new Vector3(_offsetDist/2f * (-_rowSize + 1f), 2.85f, 0f);
-        totalHorizDistance = Mathf.Abs(2*(_enemySpawnTransform.transform.position.x - _offsetDist));
-    }
-
-    private void Start()
-    {
-        CreateEnemies();
+        _enemyList = new EnemyController[_colSize * _rowSize];
+        _enemySpawnTransform.transform.position = new Vector3(_offsetDist / 2f * (-_rowSize + 1f), 2.85f, 0f);
+        totalHorizDistance = Mathf.Abs(2 * (_enemySpawnTransform.transform.position.x - _offsetDist));
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
+        CreateEnemies();
     }
 
     private void Update()
     {
-        if (_gameManager.IsGamePaused)
-        {
-            return;
-        }
+        if (!isServer) return;
+
+        if (_gameManager.IsGamePaused) return;
 
         updateTimer += Time.deltaTime;
 
@@ -60,8 +55,12 @@ public class EnemyManager : NetworkBehaviour
     {
         for (int i = 0; i < _enemyList.Length; i++)
         {
-            _enemyList[i].gameObject.SetActive(true);
-            _enemyList[i].transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
+            EnemyController enemy = _enemyList[i];
+
+            enemy.gameObject.SetActive(true);
+            enemy.transform.position = GetSpawnPosition(i / _rowSize, i % _rowSize);
+
+            NetworkServer.Spawn(enemy.gameObject);
         }
     }
 
@@ -73,6 +72,7 @@ public class EnemyManager : NetworkBehaviour
         }
     }
 
+    [Server]
     private void CreateEnemies()
     {
         for (int i = 0; i < _enemyList.Length; i++)
@@ -81,7 +81,9 @@ public class EnemyManager : NetworkBehaviour
             _enemyList[i] = enemy;
 
             enemy.SetAudioManager(_audioManager);
-            enemy.transform.position = GetSpawnPosition(i/_rowSize, i%_rowSize);
+            enemy.transform.position = GetSpawnPosition(i / _rowSize, i % _rowSize);
+
+            NetworkServer.Spawn(enemy.gameObject);
         }
     }
 
@@ -90,6 +92,7 @@ public class EnemyManager : NetworkBehaviour
         return new Vector3(_enemySpawnTransform.position.x + _offsetDist * column, _enemySpawnTransform.position.y - _offsetDist * row, _enemySpawnTransform.position.z);
     }
 
+    [Server]
     private void MoveAll()
     {
         foreach (EnemyController enemy in _enemyList)
@@ -98,10 +101,11 @@ public class EnemyManager : NetworkBehaviour
         }
     }
 
+    [Server]
     private void RespawnTopRow()
     {
         List<int> randomNumsList = new List<int>();
-        for (int i = 0; i <= _rowSize-1; i++)
+        for (int i = 0; i <= _rowSize - 1; i++)
         {
             randomNumsList.Add(i);
         }
@@ -119,10 +123,10 @@ public class EnemyManager : NetworkBehaviour
                 int randomIndex = Random.Range(0, randomNumsList.Count);
                 int uniqueNum = randomNumsList[randomIndex];
                 randomNumsList.RemoveAt(randomIndex);
-                
+
                 Vector3 spawnPosition = GetSpawnPosition(0, uniqueNum);
                 _enemyList[i].GetComponent<EnemyController>().Reactivate(spawnPosition);
-                    
+
                 enemiesRespawned++;
             }
         }
